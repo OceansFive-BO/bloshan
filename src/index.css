@@ -1,3 +1,9 @@
+/*
+  The main stylesheet for the application,
+  providing base styles and layout for the entire project
+*/
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
