@@ -1,0 +1,36 @@
+
+.terms-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #50E3C2; /* Background Accent Color */
+  color: #4A90E2; /* Primary Color for main text */
+}
+
+.terms-header {
+  color: #4A90E2; /* Primary Color for main header */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.terms-date {
+  color: #008CBA; /* Link/Interaction Color */
+  font-size: 0.9em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.terms-section {
+  margin-bottom: 20px;
+}
+
+.terms-section h2 {
+  color: #F5A623; /* Secondary Color for section headers */
+}
+
+.terms-footer {
+  margin-top: 30px;
+  font-style: italic;
+  color: #CD7574; /* Accent Color for footer message */
+  text-align: center;
+}
