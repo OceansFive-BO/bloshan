@@ -11,6 +11,9 @@ import {
   Routes
 } from "react-router-dom";
 
+import Tos from './components/views/tos/tos.jsx';
+import ContactForm from './components/views/contactForm/index.jsx';
+
 export default function App () {
 
   return (
