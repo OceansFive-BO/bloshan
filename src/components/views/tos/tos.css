@@ -1,36 +1,17 @@
-
 .terms-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #50E3C2; /* Background Accent Color */
-  color: #4A90E2; /* Primary Color for main text */
-}
+  padding: 16px;
 
-.terms-header {
-  color: #4A90E2; /* Primary Color for main header */
-  text-align: center;
-  margin-bottom: 20px;
 }
-
-.terms-date {
-  color: #008CBA; /* Link/Interaction Color */
-  font-size: 0.9em;
-  text-align: center;
-  margin-bottom: 20px;
+.terms-container > h4{
+  box-shadow: 0px 2px 4px rgba(0, 0, 0,.1);
 }
 
 .terms-section {
-  margin-bottom: 20px;
-}
-
-.terms-section h2 {
-  color: #F5A623; /* Secondary Color for section headers */
+  margin-bottom: 16px;
+  padding: 0 10px;
 }
 
 .terms-footer {
-  margin-top: 30px;
+  margin-top: 24px;
   font-style: italic;
-  color: #CD7574; /* Accent Color for footer message */
-  text-align: center;
 }
