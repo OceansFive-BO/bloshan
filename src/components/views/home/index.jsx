@@ -1,6 +1,8 @@
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
+import './styles/index.css';
+import { Typography } from '@mui/material';
 
-export default function HomeView() {
+export default function HomeView () {
 
   const exampleBooks1 = [
     {
@@ -84,16 +86,21 @@ export default function HomeView() {
   return (
     <div className="home-view">
       <div className="home-category">
-        <h2>Featured</h2>
-        <p>Check out the most popular titles!</p>
+        <div className="section-title">
+          <Typography variant="h4" align="left">Featured</Typography>
+        </div>
         <BookCarousel books={exampleBooks1}/>
       </div>
       <div className="home-category">
-        <h2>Sci-fi</h2>
+        <div className="section-title">
+          <Typography variant="h4" align="left">Sci-Fi</Typography>
+        </div>
         <BookCarousel books={exampleBooks2}/>
       </div>
       <div className="home-category">
-        <h2>Sci-fi</h2>
+        <div className="section-title">
+          <Typography variant="h4" align="left">Featured</Typography>
+        </div>
         <BookCarousel books={exampleBooks3}/>
       </div>
     </div>
