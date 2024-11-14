@@ -2,6 +2,7 @@ import './App.css';
 
 import Header from './components/common/header/Header.jsx';
 import Footer from './components/common/footer/footer.jsx';
+import ViewsController from './components/common/viewsController/ViewsController.jsx';
 
 export default function App () {
 
@@ -17,7 +18,7 @@ export default function App () {
   return (
     <div className="app">
       <Header />
-      <div>ViewController mounted here</div>
+      <ViewsController />
       <Footer />
     </div>
   )
