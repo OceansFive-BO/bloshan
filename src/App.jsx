@@ -1,12 +1,24 @@
 import './App.css';
-function App() {
+
+import Header from './components/common/header/Header.jsx';
+import Footer from './components/common/footer/footer.jsx';
+
+export default function App () {
+
+  // const books = [
+  //   {title: 'Book Title 1', author: 'Author', description: 'Description'},
+  //   {title: 'Book Title 2', author: 'Author', description: 'Description'},
+  //   {title: 'Book Title 3', author: 'Author', description: 'Description'},
+  //   {title: 'Book Title 4', author: 'Author', description: 'Description'},
+  //   {title: 'Book Title 5', author: 'Author', description: 'Description'},
+  //   {title: 'Book Title 6', author: 'Author', description: 'Description'},
+  // ];
 
   return (
-
-      <div className="app">
-        Hello World
-      </div>
+    <div className="app">
+      <Header />
+      <div>ViewController mounted here</div>
+      <Footer />
+    </div>
   )
-}
-
-export default App
+};
