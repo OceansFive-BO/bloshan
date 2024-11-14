@@ -2,24 +2,24 @@ import './App.css';
 
 import Header from './components/common/header/Header.jsx';
 import Footer from './components/common/footer/footer.jsx';
-import ViewsController from './components/common/viewsController/ViewsController.jsx';
+import NotFound from './components/common/notfound/NotFound.jsx';
+import HomeView from './components/views/home';
+import ProfileView from './components/views/profile';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from "react-router-dom";
 
 export default function App () {
 
-  // const books = [
-  //   {title: 'Book Title 1', author: 'Author', description: 'Description'},
-  //   {title: 'Book Title 2', author: 'Author', description: 'Description'},
-  //   {title: 'Book Title 3', author: 'Author', description: 'Description'},
-  //   {title: 'Book Title 4', author: 'Author', description: 'Description'},
-  //   {title: 'Book Title 5', author: 'Author', description: 'Description'},
-  //   {title: 'Book Title 6', author: 'Author', description: 'Description'},
-  // ];
-
   return (
-    <div className="app">
-      <Header />
-      <ViewsController />
-      <Footer />
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<HomeView />} />
+        <Route path="/profile" element={<ProfileView />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
 };
