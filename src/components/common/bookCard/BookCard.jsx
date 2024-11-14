@@ -22,15 +22,12 @@ export default function BookCard({ book }) {
       <CardMedia
         component="img"
         height="250"
-        image="src/assets/headshot.jpg"
+        image={book.cover}
         alt="Book Cover"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Author
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Description
+          {book.description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -47,5 +44,6 @@ BookCard.propTypes = {
     title: propTypes.string.isRequired,
     author: propTypes.string.isRequired,
     description: propTypes.string.isRequired,
+    cover: propTypes.string.isRequired,
   }).isRequired,
 };
