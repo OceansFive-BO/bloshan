@@ -7,8 +7,7 @@ import ViewsController from './components/common/viewsController/ViewsController
 import Tos from './components/views/tos/tos.jsx';
 import ContactForm from './components/views/contactForm/index.jsx';
 
-export default function App () {
-
+export default function App() {
   // const books = [
   //   {title: 'Book Title 1', author: 'Author', description: 'Description'},
   //   {title: 'Book Title 2', author: 'Author', description: 'Description'},
@@ -26,5 +25,5 @@ export default function App () {
       <Tos />
       {/* <ContactForm /> */}
     </div>
-  )
-};
+  );
+}
