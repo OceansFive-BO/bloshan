@@ -1,9 +1,16 @@
 .terms-container {
-  padding: 16px;
-
+  padding: 0px 16px 16px 16px;
 }
-.terms-container > h4{
-  box-shadow: 0px 2px 4px rgba(0, 0, 0,.1);
+
+.terms-container > h4 {
+  font-weight: 700;
+  font-size: 44px;
+  padding: 20px 0;
+}
+
+.terms-section>h5 {
+  font-weight: 900;
+  font-size: 34px;
 }
 
 .terms-section {
@@ -14,4 +21,5 @@
 .terms-footer {
   margin-top: 24px;
   font-style: italic;
+
 }

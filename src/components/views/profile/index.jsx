@@ -1,97 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './profile.css';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
 
 function ProfilePage() {
-  const userData = {
-    profilePicUrl: 'https://example.com/profile.jpg',
-    username: 'johndoe',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'johndoe@example.com',
-    phoneNumber: '123-456-7890',
-    homeAddress: '123 Main St, Anytown, USA',
-    age: 30,
-  };
+  const [userData, setUserData] = useState(null);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
+  const [listedBooks, setListedBooks] = useState([]);
+  const userId = '67379616d10fc59229899912'; // TODO Replace with token
 
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
 
-  const [listedBooks, setListedBooks] = useState([
-    {
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      description: 'A classic novel set in the Jazz Age.',
-    },
-    {
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      description: 'A story about racial injustice in the American South.',
-    },
-    {
-      title: '1984',
-      author: 'George Orwell',
-      description: 'A dystopian novel about surveillance and totalitarianism.',
-    },
-    {
-      title: 'Moby Dick',
-      author: 'Herman Melville',
-      description: "The epic tale of a captain's obsession with a white whale.",
-    },
-  ]);
-
-  const [borrowedBooks, setBorrowedBooks] = useState([
-    {
-      title: 'Pride and Prejudice',
-      author: 'Jane Austen',
-      description: 'A romantic novel set in 19th-century England.',
-    },
-    {
-      title: 'Moby Dick',
-      author: 'Herman Melville',
-      description: "The epic tale of a captain's obsession with a white whale.",
-    },
-  ]);
-
-  const [bookList, setBookList] = useState([
-    {
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      publishDate: '1925',
-      id: 1,
-    },
-    {
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      publishDate: '1960',
-      id: 2,
-    },
-    { title: '1984', author: 'George Orwell', publishDate: '1949', id: 3 },
-    {
-      title: 'Pride and Prejudice',
-      author: 'Jane Austen',
-      publishDate: '1813',
-      id: 4,
-    },
-  ]);
+  const [bookList, setBookList] = useState([]);
 
   const [selectedBook, setSelectedBook] = useState(null);
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const filteredBooks = bookList.filter((book) =>
     book.title.toLowerCase().includes(bookSearch.toLowerCase())
   );
 
-  const handleSearchChange = (e) => {
-    setBookSearch(e.target.value);
-
-    setBookList((prevBooks) =>
-      prevBooks.filter((book) =>
-        book.title.toLowerCase().includes(e.target.value.toLowerCase())
-      )
-    );
+  const calculateAge = (birthDate) => {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birth.getDate())
+    ) {
+      age--;
+    }
+    return age;
   };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  // API call for fetching books by title
+  useEffect(() => {
+    const fetchBooksByTitle = async () => {
+      if (bookSearch.length >= 3) {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/books/title/${bookSearch}`
+          );
+          setBookList(response.data);
+          setError('');
+        } catch (err) {
+          console.error('Error fetching books:', err);
+          setBookList([]);
+          setError('No book with that title found');
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setBookList([]);
+        setError('');
+      }
+    };
+
+    const debounce = setTimeout(() => {
+      fetchBooksByTitle();
+    }, 300);
+
+    return () => clearTimeout(debounce);
+  }, [bookSearch]);
 
   const handleButtonClick = () => {
     if (!selectedBook) {
@@ -99,6 +79,7 @@ function ProfilePage() {
       return;
     }
     console.log('Book listed:', selectedBook, 'with notes:', notes);
+    //TODO make API POST with the user and book data
     closeModal();
   };
 
@@ -108,32 +89,60 @@ function ProfilePage() {
     setSelectedBook(null);
     setNotes('');
     setBookSearch('');
+    setBookList([]);
     setError('');
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Fetch user details
+        const userResponse = await axios.get(
+          `http://localhost:3000/users/${userId}`
+        );
+        setUserData(userResponse.data);
+
+        // Fetch borrowed books
+        const borrowedResponse = await axios.get(
+          `http://localhost:3000/users/${userId}/borrowed`
+        );
+        setBorrowedBooks(borrowedResponse.data);
+
+        // Fetch lent books
+        const lentResponse = await axios.get(
+          `http://localhost:3000/users/${userId}/lent`
+        );
+        setListedBooks(lentResponse.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profile-page">
       {/* Profile Header */}
       <div className="profile-header">
-        <img
-          src={userData.profilePicUrl}
-          alt="Profile"
-          className="profile-pic"
-        />
+        <img src={userData.photo_url} alt="Profile" className="profile-pic" />
         <div className="profile-info">
           <h2>{userData.username}</h2>
           <p className="full-name">{`${userData.firstName} ${userData.lastName}`}</p>
           <p>Email: {userData.email}</p>
-          <p>Phone: {userData.phoneNumber}</p>
-          <p>Address: {userData.homeAddress}</p>
-          <p>Age: {userData.age}</p>
+          <p>Phone: {userData.phone}</p>
+          <p>Address: {userData.address}</p>
+          <p>Age: {calculateAge(userData.birth_date)} </p>
+          <p>Preferred Contact: {userData.preferred_contact}</p>
           <button onClick={openModal} className="list-book-button">
             List a New Book
           </button>
         </div>
       </div>
-
-      {/* List New Book Button */}
 
       {/* Books Listed */}
       <div className="books-listed">
@@ -165,26 +174,34 @@ function ProfilePage() {
               className="book-search"
             />
 
+            {/* Loading Indicator */}
+            {loading && <p>Loading...</p>}
+
             {/* Book List */}
             <ul className="book-list">
-              {filteredBooks.map((book) => (
-                <li key={book.id}>
+              {bookList.map((book) => (
+                <li key={book.bookID}>
                   <label>
                     <input
                       type="checkbox"
-                      checked={selectedBook?.id === book.id}
+                      checked={selectedBook?.bookID === book.bookID}
                       onChange={() =>
                         setSelectedBook(
-                          selectedBook?.id === book.id ? null : book
+                          selectedBook?.bookID === book.bookID ? null : book
                         )
                       }
                     />
                     <span className="book-title">
-                      {book.title} - {book.author} ({book.publishDate})
+                      {book.title} - {book.author} (
+                      {formatDate(book.publish_date)})
                     </span>
                   </label>
                 </li>
               ))}
+              {/* No Results Message */}
+              {!loading && bookSearch.length >= 3 && bookList.length === 0 && (
+                <p>No book with that title found</p>
+              )}
             </ul>
 
             {/* Add Notes Section */}

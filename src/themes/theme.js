@@ -1,4 +1,4 @@
-// src/theme.js
+
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -21,7 +21,7 @@ const theme = createTheme({
       main: "#008CBA", // Link/Interaction Color for links and hover states
     },
     text: {
-      primary: "#333333", // Dark text color for main readability on backgrounds
+      primary: "#2C3E50", // Dark text color for main readability on backgrounds
       secondary: "#555555", // Lighter text color for secondary text
     },
   },

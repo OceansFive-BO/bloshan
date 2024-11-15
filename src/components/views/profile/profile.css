@@ -20,10 +20,10 @@
 }
 
 .profile-pic {
-  width: 150px; /* Increased size */
+  width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 2px solid #4a90e2; /* Using primary color */
+  border: 2px solid #4a90e2;
 }
 
 .profile-info {
@@ -36,7 +36,7 @@
 .profile-info h2 {
   margin: 0;
   font-size: 1.8rem;
-  color: #4a90e2; /* Primary color */
+  color: #4a90e2;
 }
 
 .profile-header p {
@@ -55,7 +55,7 @@
   margin-bottom: 20px;
   margin-top: 60px;
   font-size: 3rem;
-  color: #4a90e2; /* Primary color */
+  color: #4a90e2;
 }
 
 .books-listed ul,
@@ -73,7 +73,7 @@
 
 /* Button Styling */
 .list-book-button {
-  background-color: #f5a623; /* Primary color */
+  background-color: #f5a623;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -86,7 +86,7 @@
 }
 
 .list-book-button:hover {
-  background-color: #008cba; /* Link/Button Hover color */
+  background-color: #008cba;
 }
 
 /* Modal Styles */
@@ -103,28 +103,32 @@
   z-index: 1000;
 }
 
+.modal p {
+  font-size: 0.5em;
+}
+
 .modal-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 90%;
   max-width: 600px;
-  height: 550px; /* Increased height */
+  height: 550px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  overflow-y: auto; /* Allow scrolling if content overflows */
+  overflow-y: auto;
 }
 
 .modal-content h2 {
   margin-bottom: 20px;
-  font-size: 2rem; /* Adjusted size */
-  color: #4a90e2; /* Primary color */
+  font-size: 2rem;
+  color: #4a90e2;
 }
 
 .close-modal {
   background: none;
   border: none;
-  color: #008cba; /* Link/Button Hover color */
-  font-size: 1rem; /* Increased size for clarity */
+  color: #008cba;
+  font-size: 1rem;
   cursor: pointer;
   float: right;
 }
@@ -138,28 +142,28 @@
 }
 
 .book-list {
-  max-height: 300px; /* Increased height for better visibility */
+  max-height: 300px;
   overflow-y: auto;
   margin-bottom: 10px;
 }
 
 .book-list li label {
-  display: flex; /* Enable flexbox */
-  align-items: center; /* Vertically align checkbox and text */
-  gap: 10px; /* Add space between checkbox and book name */
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .book-list li {
   padding: 8px;
   display: flex;
   align-items: center;
-  gap: 20px; /* Add space between checkbox and book name */
+  gap: 20px;
   border-bottom: 1px solid #f0f0f0;
-  font-size: 0.9rem; /* Adjust font size */
+  font-size: 0.9rem;
 }
 
 .book-list li:hover {
-  background-color: #50e3c2; /* Background Accents */
+  background-color: #50e3c2;
 }
 
 .book-list label {
@@ -174,17 +178,17 @@
 }
 
 .book-info {
-  font-size: 0.8rem; /* Smaller font for additional info */
+  font-size: 0.8rem;
   color: #777;
 }
 
 .add-notes {
-  margin-top: 20px; /* Space above the notes section */
+  margin-top: 20px;
 }
 
 .notes-field {
   width: 100%;
-  height: 100px; /* Increased height for more writing space */
+  height: 100px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -192,7 +196,7 @@
 }
 
 .modal button {
-  background-color: #f5a623; /* Secondary color */
+  background-color: #f5a623;
   color: white;
   padding: 8px 12px;
   border: none;
@@ -201,11 +205,11 @@
 }
 
 .modal button:hover {
-  background-color: #008cba; /* Link/Button Hover color */
+  background-color: #008cba;
 }
 
 .error-message {
-  color: #cd7574; /* Accent color for error */
+  color: #cd7574;
   font-size: 0.9rem;
   margin-bottom: 10px;
 }

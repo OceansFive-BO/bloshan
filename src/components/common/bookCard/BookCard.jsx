@@ -12,17 +12,13 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function BookCard({ book }) {
-
   return (
     <Card className="book-card" sx={{ maxWidth: 345 }}>
-      <CardHeader
-        title={book.title}
-        subheader={book.author}
-      />
+      <CardHeader title={book.title} subheader={book.author} />
       <CardMedia
         component="img"
         height="250"
-        image={book.cover}
+        image={book.image}
         alt="Book Cover"
       />
       <CardContent>
