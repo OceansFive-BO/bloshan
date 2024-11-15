@@ -15,11 +15,13 @@ export default function App () {
 
   return (
     <Router>
+      <Header />
       <Routes>
         <Route exact path="/" element={<HomeView />} />
         <Route path="/profile" element={<ProfileView />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };
