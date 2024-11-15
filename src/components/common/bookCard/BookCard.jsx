@@ -40,6 +40,6 @@ BookCard.propTypes = {
     title: propTypes.string.isRequired,
     author: propTypes.string.isRequired,
     description: propTypes.string.isRequired,
-    cover: propTypes.string.isRequired,
+    image: propTypes.string.isRequired,
   }).isRequired,
 };
