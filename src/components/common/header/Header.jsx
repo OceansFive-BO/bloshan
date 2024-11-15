@@ -11,6 +11,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import './Header.css';
 
 import { Link } from 'react-router-dom';
 
@@ -82,7 +83,7 @@ export default function PrimarySearchAppBar() {
                 size="large"
                 color="inherit"
               >
-                <Link to={'/home'}>
+                <Link className="header-link" to={'/home'}>
                   <HomeIcon />
                 </Link>
               </IconButton>
@@ -92,7 +93,7 @@ export default function PrimarySearchAppBar() {
                 edge="end"
                 color="inherit"
               >
-                <Link to={'/profile'}>
+                <Link className="header-link" to={'/profile'}>
                   <AccountCircle />
                 </Link>
               </IconButton>
