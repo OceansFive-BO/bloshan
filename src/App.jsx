@@ -4,8 +4,8 @@ import Header from './components/common/header/Header.jsx';
 import Footer from './components/common/footer/footer.jsx';
 import ViewsController from './components/common/viewsController/ViewsController.jsx';
 
-import Tos from './components/views/tos/tos.jsx';
-import ContactForm from './components/views/contactForm/index.jsx';
+// import Tos from './components/views/tos/Tos.jsx';
+// import ContactForm from './components/views/contactForm/ContactForm.jsx';
 
 export default function App() {
   // const books = [
@@ -20,10 +20,8 @@ export default function App() {
   return (
     <div className="app">
       <Header />
-      <ViewsController />
-      <Footer />
-      <Tos />
-      {/* <ContactForm /> */}
+      {/* <ViewsController /> */}
+      {/* <Footer /> */}
     </div>
   );
 }

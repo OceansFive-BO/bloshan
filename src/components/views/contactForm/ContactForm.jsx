@@ -1,5 +1,6 @@
 
 import { TextField, Button, Typography, Box } from '@mui/material';
+import './contactform.css';
 
 const ContactForm = () => {
     return (
