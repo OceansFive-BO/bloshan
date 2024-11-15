@@ -54,14 +54,34 @@ function ProfilePage() {
   ]);
 
   const [bookList, setBookList] = useState([
-    { title: 'The Great Gatsby', id: 1 },
-    { title: 'To Kill a Mockingbird', id: 2 },
-    { title: '1984', id: 3 },
-    { title: 'Pride and Prejudice', id: 4 },
+    {
+      title: 'The Great Gatsby',
+      author: 'F. Scott Fitzgerald',
+      publishDate: '1925',
+      id: 1,
+    },
+    {
+      title: 'To Kill a Mockingbird',
+      author: 'Harper Lee',
+      publishDate: '1960',
+      id: 2,
+    },
+    { title: '1984', author: 'George Orwell', publishDate: '1949', id: 3 },
+    {
+      title: 'Pride and Prejudice',
+      author: 'Jane Austen',
+      publishDate: '1813',
+      id: 4,
+    },
   ]);
 
   const [selectedBook, setSelectedBook] = useState(null);
   const [notes, setNotes] = useState('');
+  const [error, setError] = useState('');
+
+  const filteredBooks = bookList.filter((book) =>
+    book.title.toLowerCase().includes(bookSearch.toLowerCase())
+  );
 
   const handleSearchChange = (e) => {
     setBookSearch(e.target.value);
@@ -73,12 +93,22 @@ function ProfilePage() {
     );
   };
 
+  const handleButtonClick = () => {
+    if (!selectedBook) {
+      setError('You must select a book from the list.');
+      return;
+    }
+    console.log('Book listed:', selectedBook, 'with notes:', notes);
+    closeModal();
+  };
+
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
     setSelectedBook(null);
     setNotes('');
-    setBookSearch(''); // Reset search when modal closes
+    setBookSearch('');
+    setError('');
   };
 
   return (
@@ -90,18 +120,20 @@ function ProfilePage() {
           alt="Profile"
           className="profile-pic"
         />
-        <h2>{userData.username}</h2>
-        <p>{`${userData.firstName} ${userData.lastName}`}</p>
-        <p>Email: {userData.email}</p>
-        <p>Phone: {userData.phoneNumber}</p>
-        <p>Address: {userData.homeAddress}</p>
-        <p>Age: {userData.age}</p>
+        <div className="profile-info">
+          <h2>{userData.username}</h2>
+          <p className="full-name">{`${userData.firstName} ${userData.lastName}`}</p>
+          <p>Email: {userData.email}</p>
+          <p>Phone: {userData.phoneNumber}</p>
+          <p>Address: {userData.homeAddress}</p>
+          <p>Age: {userData.age}</p>
+          <button onClick={openModal} className="list-book-button">
+            List a New Book
+          </button>
+        </div>
       </div>
 
       {/* List New Book Button */}
-      <button onClick={openModal} className="list-book-button">
-        List a New Book
-      </button>
 
       {/* Books Listed */}
       <div className="books-listed">
@@ -119,48 +151,59 @@ function ProfilePage() {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>List a New Book</h2>
             <button className="close-modal" onClick={closeModal}>
               X
             </button>
+            <h2>List a New Book</h2>
+
+            {/* Search Bar */}
             <input
               type="text"
-              placeholder="Search for a book..."
+              placeholder="Search for a book title..."
               value={bookSearch}
-              onChange={handleSearchChange}
+              onChange={(e) => setBookSearch(e.target.value)}
               className="book-search"
             />
+
+            {/* Book List */}
             <ul className="book-list">
-              {bookList.map((book) => (
-                <li key={book.id} onClick={() => setSelectedBook(book)}>
-                  {book.title}
+              {filteredBooks.map((book) => (
+                <li key={book.id}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={selectedBook?.id === book.id}
+                      onChange={() =>
+                        setSelectedBook(
+                          selectedBook?.id === book.id ? null : book
+                        )
+                      }
+                    />
+                    <span className="book-title">
+                      {book.title} - {book.author} ({book.publishDate})
+                    </span>
+                  </label>
                 </li>
               ))}
             </ul>
-            {selectedBook && (
-              <div>
-                <h3>Selected Book: {selectedBook.title}</h3>
-                <textarea
-                  placeholder="Add your notes here..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="notes-field"
-                ></textarea>
-                <button
-                  onClick={() => {
-                    console.log(
-                      'Book listed:',
-                      selectedBook,
-                      'with notes:',
-                      notes
-                    );
-                    closeModal();
-                  }}
-                >
-                  Add Book to Listing
-                </button>
-              </div>
-            )}
+
+            {/* Add Notes Section */}
+            <div className="add-notes">
+              <textarea
+                placeholder="Add your notes here..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="notes-field"
+              ></textarea>
+            </div>
+
+            {/* Error Message */}
+            {error && <p className="error-message">{error}</p>}
+
+            {/* Add Button */}
+            <button onClick={handleButtonClick} className="add-book-button">
+              Add Book to Listing
+            </button>
           </div>
         </div>
       )}
