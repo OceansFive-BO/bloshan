@@ -26,7 +26,7 @@ const Search = styled('div')(({ theme }) => ({
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(6),
     width: 'auto',
   },
 }));
@@ -79,32 +79,23 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <IconButton
-                size="large"
-                color="inherit"
-              >
-                <Link className="header-link" to={'/home'}>
-                  <HomeIcon />
-                </Link>
-              </IconButton>
-
-              <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-              >
-                <Link className="header-link" to={'/profile'}>
-                  <AccountCircle />
-                </Link>
-              </IconButton>
-
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               color="inherit"
             >
-              <MoreIcon />
+              <Link className="header-link" to={'/home'}>
+                <HomeIcon />
+              </Link>
+            </IconButton>
+
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+            >
+              <Link className="header-link" to={'/profile'}>
+                <AccountCircle />
+              </Link>
             </IconButton>
           </Box>
         </Toolbar>
