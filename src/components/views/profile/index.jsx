@@ -12,31 +12,12 @@ function ProfilePage() {
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
 
-  const [bookList, setBookList] = useState([
-    {
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      publishDate: '1925',
-      id: 1,
-    },
-    {
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      publishDate: '1960',
-      id: 2,
-    },
-    { title: '1984', author: 'George Orwell', publishDate: '1949', id: 3 },
-    {
-      title: 'Pride and Prejudice',
-      author: 'Jane Austen',
-      publishDate: '1813',
-      id: 4,
-    },
-  ]);
+  const [bookList, setBookList] = useState([]);
 
   const [selectedBook, setSelectedBook] = useState(null);
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const filteredBooks = bookList.filter((book) =>
     book.title.toLowerCase().includes(bookSearch.toLowerCase())
@@ -51,20 +32,46 @@ function ProfilePage() {
       monthDiff < 0 ||
       (monthDiff === 0 && today.getDate() < birth.getDate())
     ) {
-      age--; // Adjust if the birthday hasn't occurred yet this year
+      age--;
     }
     return age;
   };
 
-  const handleSearchChange = (e) => {
-    setBookSearch(e.target.value);
-
-    setBookList((prevBooks) =>
-      prevBooks.filter((book) =>
-        book.title.toLowerCase().includes(e.target.value.toLowerCase())
-      )
-    );
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
+  // API call for fetching books by title
+  useEffect(() => {
+    const fetchBooksByTitle = async () => {
+      if (bookSearch.length >= 3) {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/books/title/${bookSearch}`
+          );
+          setBookList(response.data);
+          setError('');
+        } catch (err) {
+          console.error('Error fetching books:', err);
+          setBookList([]);
+          setError('No book with that title found');
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setBookList([]);
+        setError('');
+      }
+    };
+
+    const debounce = setTimeout(() => {
+      fetchBooksByTitle();
+    }, 300);
+
+    return () => clearTimeout(debounce);
+  }, [bookSearch]);
 
   const handleButtonClick = () => {
     if (!selectedBook) {
@@ -72,6 +79,7 @@ function ProfilePage() {
       return;
     }
     console.log('Book listed:', selectedBook, 'with notes:', notes);
+    //TODO make API POST with the user and book data
     closeModal();
   };
 
@@ -81,6 +89,7 @@ function ProfilePage() {
     setSelectedBook(null);
     setNotes('');
     setBookSearch('');
+    setBookList([]);
     setError('');
   };
 
@@ -113,7 +122,7 @@ function ProfilePage() {
   }, [userId]);
 
   if (!userData) {
-    return <div>Loading...</div>; // Show loading state while data is fetched
+    return <div>Loading...</div>;
   }
 
   return (
@@ -134,8 +143,6 @@ function ProfilePage() {
           </button>
         </div>
       </div>
-
-      {/* List New Book Button */}
 
       {/* Books Listed */}
       <div className="books-listed">
@@ -167,26 +174,34 @@ function ProfilePage() {
               className="book-search"
             />
 
+            {/* Loading Indicator */}
+            {loading && <p>Loading...</p>}
+
             {/* Book List */}
             <ul className="book-list">
-              {filteredBooks.map((book) => (
-                <li key={book.id}>
+              {bookList.map((book) => (
+                <li key={book.bookID}>
                   <label>
                     <input
                       type="checkbox"
-                      checked={selectedBook?.id === book.id}
+                      checked={selectedBook?.bookID === book.bookID}
                       onChange={() =>
                         setSelectedBook(
-                          selectedBook?.id === book.id ? null : book
+                          selectedBook?.bookID === book.bookID ? null : book
                         )
                       }
                     />
                     <span className="book-title">
-                      {book.title} - {book.author} ({book.publishDate})
+                      {book.title} - {book.author} (
+                      {formatDate(book.publish_date)})
                     </span>
                   </label>
                 </li>
               ))}
+              {/* No Results Message */}
+              {!loading && bookSearch.length >= 3 && bookList.length === 0 && (
+                <p>No book with that title found</p>
+              )}
             </ul>
 
             {/* Add Notes Section */}
