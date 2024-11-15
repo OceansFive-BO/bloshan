@@ -12,6 +12,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
+import { Link } from 'react-router-dom';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -76,22 +78,25 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge>
-                <HomeIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+              <IconButton
+                size="large"
+                color="inherit"
+              >
+                <Link to={'/home'}>
+                  <HomeIcon />
+                </Link>
+              </IconButton>
+
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+              >
+                <Link to={'/profile'}>
+                  <AccountCircle />
+                </Link>
+              </IconButton>
+
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
