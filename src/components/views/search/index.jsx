@@ -18,6 +18,7 @@ const Item = styled('div')(({ theme }) => ({
   }),
 }));
 
+// TODO: Create prop for search results and replace exampleBooks1
 export default function SearchView() {
 
   const exampleBooks1 = [
