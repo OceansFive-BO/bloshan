@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import theme from './themes/theme.js';
 import NotFound from './components/common/notfound/NotFound.jsx';
+import Test from './components/views/test/test.jsx';
 import HomeView from './components/views/home';
 import ProfileView from './components/views/profile';
 import Root from './components/views/Root.jsx';
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <ProfileView />,
+      },
+      {
+        path: '/test',
+        element: <Test />,
       },
     ],
   },

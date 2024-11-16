@@ -7,7 +7,7 @@ function ProfilePage() {
   const [userData, setUserData] = useState(null);
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
-  const userId = '67379616d10fc59229899912'; // TODO Replace with token
+  const userId = '6737db542bcdc8582e60a75a'; // TODO Replace with token
 
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
