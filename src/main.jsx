@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import theme from './themes/theme.js';
 import NotFound from './components/common/notfound/NotFound.jsx';
 import Test from './components/views/test/test.jsx';
@@ -16,6 +16,10 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <NotFound />,
     children: [
+      {
+        path: '/',
+        element: <Navigate to="/home" replace />,
+      },
       {
         path: '/home',
         element: <HomeView />,
