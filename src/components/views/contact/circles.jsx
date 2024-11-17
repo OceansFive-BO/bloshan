@@ -1,0 +1,26 @@
+const circles = [
+  { left: '1%', top: '5%' },
+  { left: '5%', top: '10%' },
+  { left: '8%', top: '15%' },
+  { left: '4%', top: '17%' },
+  { left: '2%', top: '20%' },
+  { left: '7%', top: '25%' },
+  { left: '3%', top: '30%' },
+  { left: '5%', top: '33%' },
+  { left: '1%', top: '35%' },
+  { left: '6%', top: '40%' },
+  { right: '3%', top: '7%' },
+  { right: '6%', top: '12%' },
+  { right: '8%', top: '15%' },
+  { right: '4%', top: '18%' },
+  { right: '9%', top: '20%' },
+  { right: '5%', top: '25%' },
+  { right: '7%', top: '28%' },
+  { right: '10%', top: '32%' },
+  { right: '3%', top: '35%' },
+  { right: '6%', top: '40%' },
+  { right: '8%', top: '45%' },
+  { right: '4%', top: '50%' },
+];
+
+export default circles;

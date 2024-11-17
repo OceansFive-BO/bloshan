@@ -1,7 +1,8 @@
-import SearchView from "../search"
-export default function TestView() {
 
+export default function TestView() {
   return (
-    <SearchView />
+    <>
+      
+    </>
   );
-};
+}
