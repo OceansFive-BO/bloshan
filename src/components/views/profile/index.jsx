@@ -18,10 +18,11 @@ function ProfilePage() {
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const filteredBooks = bookList.filter((book) =>
-    book.title.toLowerCase().includes(bookSearch.toLowerCase())
-  );
+  // const filteredBooks = bookList.filter((book) =>
+  //   book.title.toLowerCase().includes(bookSearch.toLowerCase())
+  // );
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -49,7 +50,7 @@ function ProfilePage() {
         setLoading(true);
         try {
           const response = await axios.get(
-            `http://localhost:3000/books/title/${bookSearch}`
+            `http://localhost:3000/books/newBooks/${bookSearch}`
           );
           setBookList(response.data);
           setError('');
@@ -80,16 +81,9 @@ function ProfilePage() {
     }
 
     const bookData = {
-      title: selectedBook.title,
-      author: selectedBook.author,
-      publishDate: selectedBook.publish_date,
-      description: selectedBook.description,
-      userNotes: notes,
-      image: selectedBook.image,
-      genre: selectedBook.genre,
-      ratings: selectedBook.ratings,
-      likes: selectedBook.likes,
-      userId: userId,
+      bookID: selectedBook.bookID,
+      userID: userId,
+      notes: notes,
     };
 
     //TODO API CALL NOT WORKING
@@ -119,6 +113,7 @@ function ProfilePage() {
   const closeModal = () => {
     setShowModal(false);
     setSelectedBook(null);
+    setSuccessMessage('');
     setNotes('');
     setBookSearch('');
     setBookList([]);
@@ -248,6 +243,11 @@ function ProfilePage() {
 
             {/* Error Message */}
             {error && <p className="error-message">{error}</p>}
+
+            {/* Success Message */}
+            {successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )}
 
             {/* Add Button */}
             <button onClick={handleButtonClick} className="add-book-button">

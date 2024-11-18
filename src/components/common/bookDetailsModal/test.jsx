@@ -6,7 +6,7 @@ function HomeView() {
   const [selectedBook, setSelectedBook] = useState(null);
 
   const book = {
-    id: 1,
+    id: '673802a1ba6a2d66786589c5',
     title: 'JavaScript Essentials',
     author: 'John Doe',
     ratings: 4.5,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './BookModal.css';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import axios from 'axios';
 
 function BookModal({
   id,
@@ -17,18 +18,44 @@ function BookModal({
   onClose,
 }) {
   const [successMessage, setSuccessMessage] = useState('');
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(likes);
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-  const handleBorrowBook = () => {
-    setSuccessMessage(`${title} has been added to your list!`);
 
-    setTimeout(() => {
-      setSuccessMessage('');
-      onClose();
-    }, 5000);
+  const handleLike = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/books/${id}/like`
+      );
+      if (response.status === 204) {
+        setIsLiked(true);
+        setLikeCount(likeCount + 1);
+      }
+    } catch (error) {
+      console.error('Error liking the book:', error);
+    }
+  };
+
+  const handleBorrowBook = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/books/${id}/lend`
+      );
+      if (response.status === 204) {
+        setSuccessMessage(`${title} has been added to your list!`);
+
+        setTimeout(() => {
+          setSuccessMessage('');
+          onClose();
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Error borrowing the book:', error);
+    }
   };
 
   return (
@@ -50,9 +77,7 @@ function BookModal({
               textAlign: 'center',
             }}
           >
-            <h2 style={{ fontSize: '0.5em' }}>
-              {title} has been added to your list!
-            </h2>
+            <h2>{title} has been added to your list!</h2>
           </div>
         ) : (
           <>
@@ -88,8 +113,14 @@ function BookModal({
                 <div
                   style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
                 >
-                  <FavoriteIcon style={{ color: '#f50057' }} />
-                  <p>{likes} </p>
+                  <FavoriteIcon
+                    style={{
+                      color: isLiked ? '#f50057' : 'grey',
+                      cursor: 'pointer',
+                    }}
+                    onClick={handleLike}
+                  />
+                  <p>{likeCount}</p>
                 </div>
               </div>
             </div>
