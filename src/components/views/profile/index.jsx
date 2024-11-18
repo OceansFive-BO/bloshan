@@ -73,14 +73,46 @@ function ProfilePage() {
     return () => clearTimeout(debounce);
   }, [bookSearch]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (!selectedBook) {
       setError('You must select a book from the list.');
       return;
     }
-    console.log('Book listed:', selectedBook, 'with notes:', notes);
-    //TODO make API POST with the user and book data
-    closeModal();
+
+    const bookData = {
+      title: selectedBook.title,
+      author: selectedBook.author,
+      publishDate: selectedBook.publish_date,
+      description: selectedBook.description,
+      userNotes: notes,
+      image: selectedBook.image,
+      genre: selectedBook.genre,
+      ratings: selectedBook.ratings,
+      likes: selectedBook.likes,
+      userId: userId,
+    };
+
+    //TODO API CALL NOT WORKING
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/books/',
+        bookData
+      );
+      console.log('Book listed successfully:', response.data);
+
+      setError('');
+      setSuccessMessage(
+        `${selectedBook.title} has been added to your listings!`
+      );
+
+      setTimeout(() => {
+        setSuccessMessage('');
+        closeModal();
+      }, 5000);
+    } catch (error) {
+      console.error('Error adding book:', error);
+      setError('An error occurred while adding the book. Please try again.');
+    }
   };
 
   const openModal = () => setShowModal(true);
@@ -110,7 +142,7 @@ function ProfilePage() {
 
         // Fetch lent books
         const lentResponse = await axios.get(
-          `http://localhost:3000/users/${userId}/lent`
+          `http://localhost:3000/users/${userId}/lending`
         );
         setListedBooks(lentResponse.data);
       } catch (error) {

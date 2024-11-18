@@ -25,10 +25,9 @@ function BookModal({
   const handleBorrowBook = () => {
     setSuccessMessage(`${title} has been added to your list!`);
 
-    // Close the modal after 5 seconds
     setTimeout(() => {
-      setSuccessMessage(''); // Clear the message
-      onClose(); // Close the modal
+      setSuccessMessage('');
+      onClose();
     }, 5000);
   };
 

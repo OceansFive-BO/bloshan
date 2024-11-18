@@ -49,7 +49,12 @@ export default function Footer() {
               About
             </Typography>
             <Box>
-              <Link className="footer-link" to="/tos" color="text.primary" underline="hover">
+              <Link
+                className="footer-link"
+                to="/tos"
+                color="text.primary"
+                underline="hover"
+              >
                 Terms of Service
               </Link>
             </Box>
@@ -59,13 +64,18 @@ export default function Footer() {
               Services
             </Typography>
             <Box>
-              <Link className="footer-link" to={"/contact"} color="text.primary" underline="hover">
+              <Link
+                className="footer-link"
+                to={'/contact'}
+                color="text.primary"
+                underline="hover"
+              >
                 Contact us
               </Link>
             </Box>
           </Box>
         </Box>
-        <Box SX={{ display: 'flex', justifyContent: 'center', width:'70%' }}>
+        <Box SX={{ display: 'flex', justifyContent: 'center', width: '70%' }}>
           <Typography
             variant="h5"
             sx={{
