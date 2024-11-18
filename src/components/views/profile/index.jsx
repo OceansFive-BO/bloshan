@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './profile.css';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
+import propTypes from "prop-types";
+import { Navigate } from "react-router-dom";
 
-function ProfilePage() {
-  const [userData, setUserData] = useState(null);
+function ProfilePage({user}) {
+  console.log(user)
+  // const [userData, setUserData] = useState(null);
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
-  const userId = '6737db542bcdc8582e60a75a'; // TODO Replace with token
+  const userId = '6736472090d8a0d1e7b37c9e'; // TODO Replace with token
 
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
@@ -97,10 +100,10 @@ function ProfilePage() {
     const fetchUserData = async () => {
       try {
         // Fetch user details
-        const userResponse = await axios.get(
-          `http://localhost:3000/users/${userId}`
-        );
-        setUserData(userResponse.data);
+        // const userResponse = await axios.get(
+        //   `http://localhost:3000/users/${userId}`
+        // );
+        // setUserData(userResponse.data);
 
         // Fetch borrowed books
         const borrowedResponse = await axios.get(
@@ -121,23 +124,23 @@ function ProfilePage() {
     fetchUserData();
   }, [userId]);
 
-  if (!userData) {
-    return <div>Loading...</div>;
+  if (!user) {
+    return <Navigate to="/home" replace />;
   }
 
   return (
     <div className="profile-page">
       {/* Profile Header */}
       <div className="profile-header">
-        <img src={userData.photo_url} alt="Profile" className="profile-pic" />
+        <img src={user?.picture} alt="Profile" className="profile-pic" />
         <div className="profile-info">
-          <h2>{userData.username}</h2>
-          <p className="full-name">{`${userData.firstName} ${userData.lastName}`}</p>
-          <p>Email: {userData.email}</p>
-          <p>Phone: {userData.phone}</p>
-          <p>Address: {userData.address}</p>
-          <p>Age: {calculateAge(userData.birth_date)} </p>
-          <p>Preferred Contact: {userData.preferred_contact}</p>
+          <h2>{user?.username}</h2>
+          <p className="full-name">{`${user?.name}`}</p>
+          <p>Email: {user?.email}</p>
+          <p>Phone: {user?.phone}</p>
+          <p>Address: {user?.address}</p>
+          <p>Age: {calculateAge(user?.birth_date)} </p>
+          <p>Preferred Contact: {user?.preferred_contact}</p>
           <button onClick={openModal} className="list-book-button">
             List a New Book
           </button>
@@ -229,3 +232,8 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+
+
+ProfilePage.propTypes = {
+  user: propTypes.object,
+};
