@@ -88,12 +88,6 @@ export default function PrimarySearchAppBar() {
                 <AccountCircle />
               </Link>
             </IconButton>
-
-            <IconButton size="large" edge="end" color="inherit">
-              <Link className="header-link" to={'/contact'}>
-                <ContactIcon />
-              </Link>
-            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

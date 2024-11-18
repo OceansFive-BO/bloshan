@@ -1,12 +1,13 @@
 import React from 'react';
-import { Box, IconButton, Typography, Link } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import RedditIcon from '@mui/icons-material/Reddit';
-
+import { Link } from 'react-router-dom';
+import './footer.css';
 export default function Footer() {
   const theme = useTheme();
 
@@ -48,35 +49,18 @@ export default function Footer() {
               About
             </Typography>
             <Box>
-              <Link href="/" color="text.primary" underline="hover">
-                Home
+              <Link className="footer-link" to="/tos" color="text.primary" underline="hover">
+                Terms of Service
               </Link>
             </Box>
           </Box>
-
           <Box className="footer-content-links">
             <Typography variant="h5" sx={{ margin: '10px 0 5px 0' }}>
               Services
             </Typography>
             <Box>
-              <Link href="/profile" color="text.primary" underline="hover">
-                Profile
-              </Link>
-            </Box>
-          </Box>
-
-          <Box className="footer-content-links">
-            <Typography variant="h5" sx={{ margin: '10px 0 5px 0' }}>
-              Support
-            </Typography>
-            <Box>
-              <Link href="/contact" color="text.primary" underline="hover">
-                Contact
-              </Link>
-            </Box>
-            <Box>
-              <Link href="/tos" color="text.primary" underline="hover">
-                Terms of Service
+              <Link className="footer-link" to={"/contact"} color="text.primary" underline="hover">
+                Contact us
               </Link>
             </Box>
           </Box>
@@ -163,7 +147,7 @@ export default function Footer() {
         }}
       >
         <Typography sx={{ bottom: 0 }} variant="body2">
-          &copy; 2024 All rights reserved
+          &copy; 2024 All rights reserved - BookSwap Library Exchange
         </Typography>
       </Box>
     </Box>
