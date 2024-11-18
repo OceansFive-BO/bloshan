@@ -122,7 +122,7 @@ function ProfilePage() {
   }, [userId]);
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <div className="profile-alt-page">Loading...</div>;
   }
 
   return (

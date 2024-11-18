@@ -8,8 +8,9 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
+import ContactIcon from '@mui/icons-material/ContactMail';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import './Header.css';
+import './header.css';
 
 import { Link } from 'react-router-dom';
 
@@ -53,10 +54,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             variant="h6"
@@ -77,22 +77,21 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              color="inherit"
-            >
+            <IconButton size="large" color="inherit">
               <Link className="header-link" to={'/home'}>
                 <HomeIcon />
               </Link>
             </IconButton>
 
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-            >
+            <IconButton size="large" color="inherit">
               <Link className="header-link" to={'/profile'}>
                 <AccountCircle />
+              </Link>
+            </IconButton>
+
+            <IconButton size="large" edge="end" color="inherit">
+              <Link className="header-link" to={'/contact'}>
+                <ContactIcon />
               </Link>
             </IconButton>
           </Box>
