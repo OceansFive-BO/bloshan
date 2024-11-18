@@ -163,7 +163,7 @@ export default function Footer() {
         }}
       >
         <Typography sx={{ bottom: 0 }} variant="body2">
-          &copy; 2024 All rights reserved
+          &copy; 2024 All rights reserved - BookSwap Library Exchange
         </Typography>
       </Box>
     </Box>
