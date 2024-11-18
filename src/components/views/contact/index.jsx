@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -6,10 +6,13 @@ import {
   Button,
   Snackbar,
   Alert,
+  Link
 } from '@mui/material';
+
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import circles from './circles.jsx';
+import bnLogo from '../../../assets/bn.png';
 import './contactform.css';
 
 const ContactForm = ({ isLoggedIn, userData }) => {
@@ -318,12 +321,12 @@ const ContactForm = ({ isLoggedIn, userData }) => {
                     variant="contained"
                     className="form-submit"
                     sx={{
-                      backgroundColor: '#04AA6D',
+                      backgroundColor: '#4A90E2',
                       color: 'white',
                       padding: '12px 20px',
                       borderRadius: '4px',
                       '&:hover': {
-                        backgroundColor: '#45a049',
+                        backgroundColor: '#50E3C2',
                         cursor: 'pointer',
                       },
                     }}
@@ -334,9 +337,65 @@ const ContactForm = ({ isLoggedIn, userData }) => {
               </form>
             </Box>
             <Box className="form-text" sx={{ marginTop: 3 }}>
-              <Typography variant="body1">Test</Typography>
-              <Typography variant="body1">Another test</Typography>
-              <Typography variant="body2">More test content</Typography>
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: 'text.primary',
+                    fontWeight: 'bold',
+                    marginTop: '25%',
+                    marginBottom: '20px'
+                  }}
+                >
+                  You're in good company.
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: 'background.paper',
+                  }}
+                >
+                  Keep up to date on the newest releases with some of our favorite book
+                  resources.
+                </Typography>
+              </Box>
+              <Box className="form-text-content">
+                <Box className="img-cont" variant="body1">
+                  <a href="https://www.goodreads.com" target="_blank">
+                    <img
+                      className="goodreads"
+                      src="//logotyp.us/file/goodreads.svg"
+                      alt="Goodreads"
+                    />
+                  </a>
+                  <a href="https://www.barnesandnoble.com">
+                    <img className="bn" alt="Barnes and Noble" src={bnLogo} />
+                  </a>
+                </Box>
+                <Box className="img-cont" variant="body1">
+                  <a href="https://www.penguin.com/" target="_blank">
+                    <img
+                      className="penguin"
+                      src="https://seeklogo.com/images/P/penguin-books-logo-4F23CD95FA-seeklogo.com.png"
+                      alt="penguin books"
+                    />
+                  </a>
+                  <a href="https://www.betterworldbooks.com">
+                    <img
+                      className="bwb"
+                      alt="Barnes and Noble"
+                      src="https://seeklogo.com/images/B/Better_World_Books-logo-0D2D79288B-seeklogo.com.png"
+                    />
+                  </a>
+                  <a href="https://www.northatlanticbooks.com/">
+                    <img
+                      className="bwb"
+                      alt="Norther atlantic books"
+                      src="https://seeklogo.com/images/N/North_Atlantic_Books_and_Frog-logo-34EF270A8D-seeklogo.com.png"
+                    />
+                  </a>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </Box>

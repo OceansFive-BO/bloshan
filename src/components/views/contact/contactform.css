@@ -1,9 +1,10 @@
 .form-background {
   width: 100%;
-  height: calc(100vh - 150px - 51px);
+  height: calc(100vh - 50px);
   background: linear-gradient(-10deg, #008CBA 60%, white 50%);
-  position: relative;
   overflow: hidden;
+  position: relative;
+  top: 50px;
 }
 
 .circles {
@@ -55,9 +56,42 @@
 
 .form-text {
   width: 40%;
-  border: solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
+.form-text-header {
+  margin-top: 25%;
+}
+
+.form-text-content {
+  z-index: 1;
+}
+
+.img-cont {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 60%;
+}
+
+.goodreads {
+  height: 120px;
+  cursor: pointer;
+}
+
+
+.bn {
+  cursor: pointer;
+  height: 90px;
+}
+.penguin {
+  height: 70px;
+}
+.bwb {
+  height: 60px;
+}
 .row::after {
   content: "";
   display: table;
