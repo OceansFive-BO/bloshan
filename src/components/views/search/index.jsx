@@ -6,8 +6,8 @@ import styled from '@mui/system/styled';
 import propTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import './styles/SearchView.css';
 
-// TODO: Create prop for search results and replace exampleBooks1
 export default function SearchView ({ searchString }) {
 
   const [books, setBooks] = useState([]);
@@ -24,7 +24,7 @@ export default function SearchView ({ searchString }) {
 
   if (!books.length) {
     return (
-      <Box sx={{ flexGrow: 1, pl: 10 }}>
+      <Box className="search-view" sx={{ flexGrow: 1, pl: 10 }}>
         <Typography variant="h4" gutterBottom>
           No books found
         </Typography>
@@ -32,7 +32,7 @@ export default function SearchView ({ searchString }) {
     );
   }
   return (
-    <Box sx={{ flexGrow: 1, pl: 10 }}>
+    <Box className="search-view" sx={{ flexGrow: 1, pl: 10 }}>
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {books.map((book, index) => (
           <Grid key={index} size={{ xs: 2, sm: 4 }}>
