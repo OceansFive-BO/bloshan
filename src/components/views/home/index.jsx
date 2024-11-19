@@ -19,7 +19,7 @@ export default function HomeView ({ isAuthenticated }) {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
   useEffect(() => {
     axios.get(`http://localhost:3000/books/genre/science`)
       .then((response) => {
@@ -28,7 +28,7 @@ export default function HomeView ({ isAuthenticated }) {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
   useEffect(() => {
     axios.get(`http://localhost:3000/books/genre/art`)
       .then((response) => {
@@ -37,7 +37,7 @@ export default function HomeView ({ isAuthenticated }) {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
 
   return (
     <div className="home-view">
