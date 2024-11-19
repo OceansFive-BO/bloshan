@@ -1,8 +1,43 @@
-
 .book-card-title {
-    font-size: 2rem;
-    font-weight: 40;
-    margin-bottom: 0.5rem;
-    max-width: fit-content;
-    max-height: fit-content;
+  font-size: 2rem;
+  font-weight: 40;
+  margin-bottom: 0.5rem;
+  max-width: fit-content;
+  max-height: fit-content;
+}
+
+.book-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.confirm-return-button {
+  margin-left: auto;
+  background-color: #f5a623;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.confirm-return-button:hover {
+  background-color: #008cba;
+  transform: scale(1.05);
+}
+
+.confirm-return-button:active {
+  background-color: #1e7e34;
+  transform: scale(1);
+}
+
+.confirm-return-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
 }

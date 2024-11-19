@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './profile.css';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
-import propTypes from "prop-types";
-import { Navigate } from "react-router-dom";
+import propTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
 
-function ProfilePage({user}) {
-  console.log(user)
+function ProfilePage({ user }) {
+  console.log(user);
   // const [userData, setUserData] = useState(null);
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
@@ -22,10 +22,6 @@ function ProfilePage({user}) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
-  // const filteredBooks = bookList.filter((book) =>
-  //   book.title.toLowerCase().includes(bookSearch.toLowerCase())
-  // );
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -89,7 +85,6 @@ function ProfilePage({user}) {
       notes: notes,
     };
 
-    //TODO API CALL NOT WORKING
     try {
       const response = await axios.post(
         'http://localhost:3000/books/',
@@ -109,6 +104,24 @@ function ProfilePage({user}) {
     } catch (error) {
       console.error('Error adding book:', error);
       setError('An error occurred while adding the book. Please try again.');
+    }
+  };
+
+  const handleConfirmReturn = async (bookId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/books/${bookId}/lend`
+      );
+      if (response.status === 204) {
+        console.log('Book return confirmed:', bookId);
+
+        const updatedListedBooksResponse = await axios.get(
+          `http://localhost:3000/users/${userId}/lending`
+        );
+        setListedBooks(updatedListedBooksResponse.data);
+      }
+    } catch (error) {
+      console.error('Error confirming book return:', error);
     }
   };
 
@@ -177,7 +190,11 @@ function ProfilePage({user}) {
       {/* Books Listed */}
       <div className="books-listed">
         <h3>My Listed Books</h3>
-        <BookCarousel books={listedBooks} />
+        <BookCarousel
+          books={listedBooks}
+          showConfirmReturnButton={true}
+          handleConfirmReturn={handleConfirmReturn}
+        />
       </div>
 
       {/* Books Borrowed */}
@@ -264,7 +281,6 @@ function ProfilePage({user}) {
 }
 
 export default ProfilePage;
-
 
 ProfilePage.propTypes = {
   user: propTypes.object,
