@@ -16,6 +16,7 @@ function Reroute() {
 }
 
 const App = () => {
+
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const logoutWithRedirect = () =>
     logout({
@@ -23,6 +24,7 @@ const App = () => {
         returnTo: window.location.origin,
       },
     });
+
   return (
     <Router>
       <div id="app" className="d-flex flex-column h-100">
