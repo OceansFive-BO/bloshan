@@ -79,10 +79,11 @@ export default function Header({
   }, [inputValue]);
 
   useEffect(() => {
+    console.log();
     if (inputValue.length === 1) {
       navigate('/search');
     }
-    if (inputValue.length === 0) {
+    if (inputValue.length === 0 && window.location.pathname === '/search') {
       navigate('/home');
     }
   }, [inputValue, navigate]);
