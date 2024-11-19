@@ -24,7 +24,7 @@ export default function SearchView ({ searchString }) {
 
   if (!books.length) {
     return (
-      <Box className="search-view" sx={{ flexGrow: 1, pl: 10 }}>
+      <Box className="search-view" sx={{ flexGrow: 1, pl: 10, height: "1000px" }}>
         <Typography variant="h4" gutterBottom>
           No books found
         </Typography>
