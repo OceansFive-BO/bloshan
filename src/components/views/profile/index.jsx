@@ -18,10 +18,11 @@ function ProfilePage() {
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const filteredBooks = bookList.filter((book) =>
-    book.title.toLowerCase().includes(bookSearch.toLowerCase())
-  );
+  // const filteredBooks = bookList.filter((book) =>
+  //   book.title.toLowerCase().includes(bookSearch.toLowerCase())
+  // );
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -49,7 +50,7 @@ function ProfilePage() {
         setLoading(true);
         try {
           const response = await axios.get(
-            `http://localhost:3000/books/title/${bookSearch}`
+            `http://localhost:3000/books/newBooks/${bookSearch}`
           );
           setBookList(response.data);
           setError('');
@@ -73,20 +74,46 @@ function ProfilePage() {
     return () => clearTimeout(debounce);
   }, [bookSearch]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (!selectedBook) {
       setError('You must select a book from the list.');
       return;
     }
-    console.log('Book listed:', selectedBook, 'with notes:', notes);
-    //TODO make API POST with the user and book data
-    closeModal();
+
+    const bookData = {
+      bookID: selectedBook.bookID,
+      userID: userId,
+      notes: notes,
+    };
+
+    //TODO API CALL NOT WORKING
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/books/',
+        bookData
+      );
+      console.log('Book listed successfully:', response.data);
+
+      setError('');
+      setSuccessMessage(
+        `${selectedBook.title} has been added to your listings!`
+      );
+
+      setTimeout(() => {
+        setSuccessMessage('');
+        closeModal();
+      }, 5000);
+    } catch (error) {
+      console.error('Error adding book:', error);
+      setError('An error occurred while adding the book. Please try again.');
+    }
   };
 
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
     setSelectedBook(null);
+    setSuccessMessage('');
     setNotes('');
     setBookSearch('');
     setBookList([]);
@@ -110,7 +137,7 @@ function ProfilePage() {
 
         // Fetch lent books
         const lentResponse = await axios.get(
-          `http://localhost:3000/users/${userId}/lent`
+          `http://localhost:3000/users/${userId}/lending`
         );
         setListedBooks(lentResponse.data);
       } catch (error) {
@@ -216,6 +243,11 @@ function ProfilePage() {
 
             {/* Error Message */}
             {error && <p className="error-message">{error}</p>}
+
+            {/* Success Message */}
+            {successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )}
 
             {/* Add Button */}
             <button onClick={handleButtonClick} className="add-book-button">
