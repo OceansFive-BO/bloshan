@@ -1,8 +1,26 @@
+import { useEffect, useState } from 'react';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
 import './styles/index.css';
 import { Typography } from '@mui/material';
+import axios from 'axios';
 
-export default function HomeView () {
+export default function HomeView ({ isAuthenticated }) {
+
+  const [bookSets, setBookSets] = useState([]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      axios.get('/api/user')
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      // TODO: create tailored book sets for authenticated users
+    }
+  }, [])
 
   const exampleBooks1 = [
     {
