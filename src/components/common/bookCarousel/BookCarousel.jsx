@@ -9,8 +9,12 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-export default function BookCarousel({ books }) {
-
+export default function BookCarousel({
+  books,
+  onClick = false,
+  showConfirmReturnButton = false,
+  handleConfirmReturn,
+}) {
   return (
     <div className="swiper-container">
       <Swiper
@@ -22,7 +26,12 @@ export default function BookCarousel({ books }) {
         {books.map((book, index) => {
           return (
             <SwiperSlide key={index}>
-              <BookCard book={book} />
+              <BookCard
+                book={book}
+                onClick={onClick}
+                showConfirmReturnButton={showConfirmReturnButton}
+                handleConfirmReturn={handleConfirmReturn}
+              />
             </SwiperSlide>
           );
         })}
@@ -37,6 +46,11 @@ BookCarousel.propTypes = {
       title: PropTypes.string.isRequired,
       author: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      available: PropTypes.bool,
     })
   ).isRequired,
-}
+  onClick: PropTypes.bool,
+  showConfirmReturnButton: PropTypes.bool,
+  handleConfirmReturn: PropTypes.func,
+};
