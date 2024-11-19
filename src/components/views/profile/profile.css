@@ -6,10 +6,19 @@
 } */
 
 .profile-page {
-  font-family: Arial, sans-serif;
   padding: 20px;
   max-width: 80%;
   margin: 0 auto;
+  position: relative;
+  top: 50px;
+}
+
+.profile-alt-page {
+  position: relative;
+  top: 50px;
+  padding: 20px;
+  max-width: 80%;
+  height: 100vh;
 }
 
 .profile-header {
@@ -113,7 +122,7 @@
   border-radius: 8px;
   width: 90%;
   max-width: 600px;
-  height: 550px;
+  height: 650px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
 }

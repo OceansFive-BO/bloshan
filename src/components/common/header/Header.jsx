@@ -59,15 +59,11 @@ export default function Header({
   isAuthenticated,
   loginWithRedirect,
   logoutWithRedirect,
-}) {
-  // React.useEffect(() => {
-  //   console.log(user);
-  //   console.log(isAuthenticated);
-  // }, [user, isAuthenticated]);
-
+})
+  {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             variant="h6"
@@ -87,6 +83,10 @@ export default function Header({
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton size="large" color="inherit"/>
+              <Link className="header-link" to={'/home'} />
+          </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton size="large" color="inherit">
               <Link className="header-link" to={"/home"}>

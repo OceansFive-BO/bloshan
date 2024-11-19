@@ -1,0 +1,7 @@
+.footer-link {
+  color: inherit;
+  text-decoration: none;
+}
+.footer-link:hover {
+  text-decoration: underline;
+}
