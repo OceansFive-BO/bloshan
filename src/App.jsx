@@ -7,6 +7,7 @@ import Home from "./components/views/home";
 import Profile from "./components/views/profile";
 import Header from "./components/common/header/Header.jsx";
 import Footer from "./components/common/footer/footer";
+import SearchView from './components/views/search';
 import TermsOfService from "./components/views/tos";
 import Contact from "./components/views/contact";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -20,8 +21,8 @@ function Reroute() {
 const App = () => {
 
   const [search, setSearch] = useState('');
-
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
   const logoutWithRedirect = () =>
     logout({
       logoutParams: {
@@ -33,8 +34,7 @@ const App = () => {
     <Router>
       <div id="app" className="d-flex flex-column h-100">
         <Header
-          search={search}
-          user={user}
+          setSearch={setSearch}
           isAuthenticated={isAuthenticated}
           loginWithRedirect={loginWithRedirect}
           logoutWithRedirect={logoutWithRedirect}
@@ -45,6 +45,7 @@ const App = () => {
             <Route path="/profile" element={<Profile user={user} />} />
             <Route path="/tos" element={<TermsOfService />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/search" element={<SearchView searchString={search} />} />
             <Route
               path="/"
               element={<Reroute/>}
