@@ -4,6 +4,9 @@ import { Container } from "reactstrap";
 import Home from "./components/views/home";
 import Profile from "./components/views/profile";
 import Header from "./components/common/header/Header.jsx";
+import Footer from "./components/common/footer/footer";
+import TermsOfService from "./components/views/tos";
+import Contact from "./components/views/contact";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 
@@ -33,12 +36,15 @@ const App = () => {
           <Routes>
             <Route path="/home"  element={<Home />} />
             <Route path="/profile" element={<Profile user={user} />} />
+            <Route path="/tos" element={<TermsOfService />} />
+            <Route path="/contact" element={<Contact />} />
             <Route
               path="/"
               element={<Reroute/>}
             />
           </Routes>
         </Container>
+        <Footer />
       </div>
     </Router>
   );
