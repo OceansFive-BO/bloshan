@@ -1,27 +1,48 @@
-import './App.css';
+import { BrowserRouter as Router, Routes, Route,useNavigate } from "react-router-dom";
+import { Container } from "reactstrap";
 
-import Header from './components/common/header/Header.jsx';
-import Footer from './components/common/footer/footer.jsx';
-import NotFound from './components/common/notfound/NotFound.jsx';
-import HomeView from './components/views/home';
-import ProfileView from './components/views/profile';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes
-} from "react-router-dom";
+import Home from "./components/views/home";
+import Profile from "./components/views/profile";
+import Header from "./components/common/header/Header.jsx";
+import { useAuth0 } from "@auth0/auth0-react";
+import "./App.css";
 
-export default function App () {
+function Reroute() {
+  const navigate = useNavigate();
+  navigate("/home", { relative: "path" });
+}
 
+const App = () => {
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const logoutWithRedirect = () =>
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route exact path="/" element={<HomeView />} />
-        <Route path="/profile" element={<ProfileView />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <div id="app" className="d-flex flex-column h-100">
+        <Header
+          user={user}
+          isAuthenticated={isAuthenticated}
+          loginWithRedirect={loginWithRedirect}
+          logoutWithRedirect={logoutWithRedirect}
+        />
+        <Container className="flex-grow-1 mt-5">
+          <Routes>
+            <Route path="/home"  element={<Home />} />
+            <Route path="/profile" element={<Profile user={user} />} />
+            <Route
+              path="/"
+              element={<Reroute/>}
+            />
+          </Routes>
+        </Container>
+      </div>
     </Router>
   );
 };
+
+export default App;
+

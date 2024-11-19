@@ -1,55 +1,31 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from '@mui/material/styles';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import theme from './themes/theme.js';
-import NotFound from './components/common/notFound/NotFound.jsx';
-import Test from './components/views/test/test.jsx';
-import HomeView from './components/views/home';
-import ProfileView from './components/views/profile';
-import ContactView from './components/views/contact';
-import Tos from './components/views/tos';
-import Root from './components/views/Root.jsx';
-import './index.css';
+import { createRoot } from "react-dom/client";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./themes/theme.js";
+import "./index.css";
+import { Auth0Provider } from "@auth0/auth0-react";
+import authConfig from "./auth_config";
+import App from "./App";
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    errorElement: <NotFound />,
-    children: [
-      {
-        path: '/',
-        element: <Navigate to="/home" replace />,
-      },
-      {
-        path: '/home',
-        element: <HomeView />,
-      },
-      {
-        path: '/profile',
-        element: <ProfileView />,
-      },
-      {
-        path: '/contact',
-        element: <ContactView />,
-      },
-      {
-        path: 'tos',
-        element: <Tos />,
-      },
-      {
-        path: '/test',
-        element: <Test />,
-      },
-    ],
+const onRedirectCallback = (appState) => {
+  window.location.replace(
+    appState && appState.returnTo ? appState.returnTo : window.location.pathname
+  );
+};
+
+const providerConfig = {
+  domain: authConfig.domain,
+  clientId: authConfig.clientId,
+  onRedirectCallback,
+  authorizationParams: {
+    redirect_uri: window.location.origin,
+    ...(authConfig.audience ? { audience: authConfig.audience } : null),
   },
-]);
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+};
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <Auth0Provider {...providerConfig}>
     <ThemeProvider theme={theme}>
-     <RouterProvider router={router} />
+      <App />
     </ThemeProvider>
-  </StrictMode>
+  </Auth0Provider>
 );
