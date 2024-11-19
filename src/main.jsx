@@ -1,21 +1,9 @@
-import React from "react";
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
 import theme from "./themes/theme.js";
-import NotFound from "./components/common/notfound/NotFound.jsx";
-import Test from "./components/views/test/test.jsx";
-import HomeView from "./components/views/home";
-import ProfileView from "./components/views/profile";
-import Root from "./components/views/Root.jsx";
 import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { getConfig } from "./config";
+import authConfig from "./auth_config";
 import App from "./App";
 
 const onRedirectCallback = (appState) => {
@@ -24,19 +12,15 @@ const onRedirectCallback = (appState) => {
   );
 };
 
-const config = getConfig();
-
 const providerConfig = {
-  domain: config.domain,
-  clientId: config.clientId,
+  domain: authConfig.domain,
+  clientId: authConfig.clientId,
   onRedirectCallback,
   authorizationParams: {
     redirect_uri: window.location.origin,
-    // redirect_uri: window.location.origin,
-    ...(config.audience ? { audience: config.audience } : null),
+    ...(authConfig.audience ? { audience: authConfig.audience } : null),
   },
 };
-
 const root = createRoot(document.getElementById("root"));
 root.render(
   <Auth0Provider {...providerConfig}>
