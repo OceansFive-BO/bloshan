@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { BrowserRouter as Router, Routes, Route,useNavigate } from "react-router-dom";
 import { Container } from "reactstrap";
 
@@ -17,6 +19,8 @@ function Reroute() {
 
 const App = () => {
 
+  const [search, setSearch] = useState('');
+
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const logoutWithRedirect = () =>
     logout({
@@ -29,6 +33,7 @@ const App = () => {
     <Router>
       <div id="app" className="d-flex flex-column h-100">
         <Header
+          search={search}
           user={user}
           isAuthenticated={isAuthenticated}
           loginWithRedirect={loginWithRedirect}
