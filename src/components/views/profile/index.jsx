@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './profile.css';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
@@ -6,11 +6,9 @@ import propTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 
 function ProfilePage({ user }) {
-  console.log(user);
-  // const [userData, setUserData] = useState(null);
+
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
-  const userId = user._id; // TODO Replace with token
 
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
@@ -22,7 +20,10 @@ function ProfilePage({ user }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
+  if (!user) {
+    return <Navigate to="/home" replace />;
+  }
+  const userId = user._id;
   const calculateAge = (birthDate) => {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -164,9 +165,7 @@ function ProfilePage({ user }) {
     fetchUserData();
   }, [userId]);
 
-  if (!user) {
-    return <Navigate to="/home" replace />;
-  }
+
 
   return (
     <div className="profile-page">
