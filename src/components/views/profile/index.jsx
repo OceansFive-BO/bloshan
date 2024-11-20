@@ -2,26 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './profile.css';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
-import propTypes from "prop-types";
-import { Navigate } from "react-router-dom";
+import propTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
 
-function ProfilePage({user}) {
-  const getUserId = async()=>{
-    try{
-      const userResponse = await axios.get(
-        `http://localhost:3000/users/email/${user.email}`
-      );
-      setUserId(userResponse.data._id);
-    }catch(error){
-      console.log("error: ",error );
-    }
-  }
-  const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState("");
+function ProfilePage({ user }) {
+  console.log(user);
+  // const [userData, setUserData] = useState(null);
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
-  getUserId();
-  // const userId = '6736472090d8a0d1e7b37c9e'; // TODO Replace with token
+  const userId = user._id; // TODO Replace with token
 
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
@@ -33,7 +22,6 @@ function ProfilePage({user}) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -97,7 +85,6 @@ function ProfilePage({user}) {
       notes: notes,
     };
 
-    //TODO API CALL NOT WORKING
     try {
       const response = await axios.post(
         'http://localhost:3000/books/',
@@ -120,6 +107,24 @@ function ProfilePage({user}) {
     }
   };
 
+  const handleConfirmReturn = async (bookId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/books/${bookId}/lend`
+      );
+      if (response.status === 204) {
+        console.log('Book return confirmed:', bookId);
+
+        const updatedListedBooksResponse = await axios.get(
+          `http://localhost:3000/users/${userId}/lending`
+        );
+        setListedBooks(updatedListedBooksResponse.data);
+      }
+    } catch (error) {
+      console.error('Error confirming book return:', error);
+    }
+  };
+
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
@@ -135,14 +140,10 @@ function ProfilePage({user}) {
     const fetchUserData = async () => {
       try {
         // Fetch user details
-        const userResponse = await axios.get(
-          `http://localhost:3000/users/${userId}`
-        );
-        const newUser = {
-          ...user, ...userResponse.data
-        }
-
-        setUserData(newUser);
+        // const userResponse = await axios.get(
+        //   `http://localhost:3000/users/${userId}`
+        // );
+        // setUserData(userResponse.data);
 
         // Fetch borrowed books
         const borrowedResponse = await axios.get(
@@ -171,15 +172,15 @@ function ProfilePage({user}) {
     <div className="profile-page">
       {/* Profile Header */}
       <div className="profile-header">
-        <img src={user?.picture} alt="Profile" className="profile-pic" />
+        <img src={user?.photo_url} alt="Profile" className="profile-pic" />
         <div className="profile-info">
-          <h2>{userData?.username}</h2>
-          <p className="full-name">{`${userData?.name}`}</p>
-          <p>Email: {userData?.email}</p>
-          <p>Phone: {userData?.phone}</p>
-          <p>Address: {userData?.address}</p>
-          <p>Age: {calculateAge(userData?.birth_date)} </p>
-          <p>Preferred Contact: {userData?.preferred_contact}</p>
+          <h2>{user?.username}</h2>
+          <p className="full-name">{`${user?.firstname} ${user?.lastname}`}</p>
+          <p>Email: {user?.email}</p>
+          <p>Phone: {user?.phone}</p>
+          <p>Address: {user?.address}</p>
+          <p>Age: {calculateAge(user?.birth_date)} </p>
+          <p>Preferred Contact: {user?.preferred_contact}</p>
           <button onClick={openModal} className="list-book-button">
             List a New Book
           </button>
@@ -189,7 +190,11 @@ function ProfilePage({user}) {
       {/* Books Listed */}
       <div className="books-listed">
         <h3>My Listed Books</h3>
-        <BookCarousel books={listedBooks} />
+        <BookCarousel
+          books={listedBooks}
+          showConfirmReturnButton={true}
+          handleConfirmReturn={handleConfirmReturn}
+        />
       </div>
 
       {/* Books Borrowed */}
@@ -276,7 +281,6 @@ function ProfilePage({user}) {
 }
 
 export default ProfilePage;
-
 
 ProfilePage.propTypes = {
   user: propTypes.object,

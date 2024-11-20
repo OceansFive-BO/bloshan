@@ -3,6 +3,7 @@ import './BookModal.css';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
+import ReactDOM from 'react-dom';
 
 function BookModal({
   id,
@@ -22,6 +23,7 @@ function BookModal({
   const [likeCount, setLikeCount] = useState(likes);
 
   const formatDate = (dateString) => {
+    console.log('publishDate:', dateString); // Debugging
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
@@ -58,7 +60,7 @@ function BookModal({
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <div className="modal">
       <div className="modal-content">
         <button className="close-modal" onClick={onClose}>
@@ -67,16 +69,7 @@ function BookModal({
 
         {/* Conditional Rendering: Success Message or Book Details */}
         {successMessage ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              textAlign: 'center',
-            }}
-          >
+          <div className="success-message-container">
             <h2>{title} has been added to your list!</h2>
           </div>
         ) : (
@@ -87,15 +80,21 @@ function BookModal({
             </div>
             <div className="modal-body">
               <img src={image} alt={title} className="book-image" />
+
+              {/* Likes Section */}
+              <div className="likes-section">
+                <FavoriteIcon
+                  style={{
+                    color: isLiked ? '#f50057' : 'grey',
+                    cursor: 'pointer',
+                  }}
+                  onClick={handleLike}
+                />
+                <p>{likeCount}</p>
+              </div>
+
               <div className="book-details">
-                <p>
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={ratings}
-                    precision={0.5}
-                    readOnly
-                  />
-                </p>
+                <p></p>
                 <p>
                   <strong>Published:</strong> {formatDate(publishDate)}
                 </p>
@@ -108,33 +107,19 @@ function BookModal({
                 <p>
                   <strong>User Notes:</strong> {userNotes}
                 </p>
-
-                {/* Likes Section */}
-                <div
-                  style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  <FavoriteIcon
-                    style={{
-                      color: isLiked ? '#f50057' : 'grey',
-                      cursor: 'pointer',
-                    }}
-                    onClick={handleLike}
-                  />
-                  <p>{likeCount}</p>
-                </div>
               </div>
             </div>
 
             <div className="modal-footer">
               <button className="borrow-button" onClick={handleBorrowBook}>
-                {' '}
                 Borrow Book
               </button>
             </div>
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.getElementById('modal-root') // Render modal at the root of the DOM
   );
 }
 

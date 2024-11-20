@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect, useRef } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,9 +11,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import "./Header.css";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import propTypes from "prop-types";
+import TextField from '@mui/material/TextField';
 import LogoutIcon from "@mui/icons-material/Logout";
+import Autocomplete from '@mui/material/Autocomplete';
+
+import axios from 'axios';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -41,26 +45,53 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
-
 export default function Header({
-  user,
+  setSearch,
   isAuthenticated,
   loginWithRedirect,
   logoutWithRedirect,
-})
-  {
+  }) {
+
+  const navigate = useNavigate();
+
+  const [bookTitles, setBookTitles] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const hint = useRef('');
+
+  useEffect(() => {
+    if (inputValue.length) {
+      axios
+        .get(`http://localhost:3000/books?title=${inputValue}&count=5`)
+        .then((response) => {
+          console.log(response.data);
+          let bookTitles = response.data.map((book) => {
+            return {label: book.title};
+          });
+          setBookTitles(bookTitles);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    if (inputValue.length === 0) {
+      setBookTitles([]);
+    }
+  }, [inputValue]);
+
+  useEffect(() => {
+    console.log();
+    if (inputValue.length === 1) {
+      navigate('/search');
+    }
+    if (inputValue.length === 0 && window.location.pathname === '/search') {
+      navigate('/home');
+    }
+  }, [inputValue, navigate]);
+
+  useEffect(()=> {
+    setSearch(inputValue);
+  }, [setSearch, inputValue]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -75,18 +106,67 @@ export default function Header({
           </Typography>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              {/* <SearchIcon /> */}
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+            <Autocomplete
+              onKeyDown={(event) => {
+                if (event.key === 'Tab') {
+                  if (hint.current) {
+                    setInputValue(hint.current);
+                    event.preventDefault();
+                  }
+                }
+              }}
+              onClose={() => {
+                hint.current = '';
+              }}
+              onChange={(event, newValue) => {
+                setInputValue(newValue && newValue.label ? newValue.label : '');
+              }}
+              onClick={(e) => console.log(e)}
+              disablePortal
+              inputValue={inputValue}
+              options={bookTitles}
+              sx={{ width: 300 }}
+              renderInput={(params) => {
+                return (
+                  <Box sx={{ position: 'relative' }}>
+                    <Typography
+                      sx={{
+                        position: 'absolute',
+                        opacity: 0.5,
+                        left: 14,
+                        top: 16,
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        width: 'calc(100% - 75px)', // Adjust based on padding of TextField
+                      }}
+                    >
+                      {hint.current}
+                    </Typography>
+                    <TextField
+                      {...params}
+                      onChange={(event) => {
+                        const newValue = event.target.value;
+                        setInputValue(newValue);
+                        const matchingOption = bookTitles.find((option) =>
+                          option.label.startsWith(newValue),
+                        );
+
+                        if (newValue && matchingOption) {
+                          hint.current = matchingOption.label;
+                        } else {
+                          hint.current = '';
+                        }
+                      }}
+                      label="Search..."
+                    />
+                  </Box>
+                );
+              }}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" color="inherit"/>
-              <Link className="header-link" to={'/home'} />
-          </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton size="large" color="inherit">
               <Link className="header-link" to={"/home"}>
@@ -143,7 +223,8 @@ export default function Header({
 }
 
 Header.propTypes = {
-  user: propTypes.object,
+  search: propTypes.string.isRequired,
+  setSearch: propTypes.func.isRequired,
   isAuthenticated: propTypes.bool.isRequired,
   loginWithRedirect: propTypes.func.isRequired,
   logoutWithRedirect: propTypes.func.isRequired,
