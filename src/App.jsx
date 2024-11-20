@@ -82,7 +82,6 @@ const App = () => {
 
 
         <Footer />
-        <button onClick={test}>test</button>
       </div>
     </Router>
   );
