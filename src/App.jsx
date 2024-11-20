@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import {
@@ -53,6 +54,10 @@ const App = () => {
       },
     });
 
+  const test = () => {
+    console.log('test');
+  };
+
   return (
     <Router>
       <div id="app" className="d-flex flex-column h-100">
@@ -75,7 +80,10 @@ const App = () => {
             <Route path="/" element={<Reroute />} />
           </Routes>
         </Container>
+
+
         <Footer />
+        <button onClick={test}>test</button>
       </div>
     </Router>
   );
