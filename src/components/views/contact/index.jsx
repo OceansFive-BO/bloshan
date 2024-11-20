@@ -108,7 +108,9 @@ const ContactForm = ({ isLoggedIn, userData }) => {
         console.error('Failed to submit form:', error);
       });
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="form-background">
       <div className="circles">
