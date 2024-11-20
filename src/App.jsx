@@ -53,10 +53,6 @@ const App = () => {
       },
     });
 
-  const test = () => {
-    console.log('test');
-  };
-
   return (
     <Router>
       <div id="app" className="d-flex flex-column h-100">
@@ -69,14 +65,14 @@ const App = () => {
         <Container className="flex-grow-1 mt-5">
           <Routes>
             <Route path="/home" element={<Home isAuthenticated={isAuthenticated}/>} />
-            <Route path="/profile" element={<Profile user={user} />} />
+            <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/tos" element={<TermsOfService />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/search" element={<SearchView isAuthenticated={isAuthenticated} searchString={search} />} />
             <Route
               path="/contact"
               element={
-                <Contact userData={user} isLoggedIn={isAuthenticated} />
+                <Contact userData={userData} isLoggedIn={isAuthenticated} />
               }
             />
             <Route path="/" element={<Reroute />} />
