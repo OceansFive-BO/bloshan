@@ -51,7 +51,7 @@ export default function HomeView({ isAuthenticated }) {
                 Fiction
               </Typography>
             </div>
-            <BookCarousel onClick={true} books={bookSet1} />
+            <BookCarousel onClick={true} books={bookSet1} isAuthenticated={isAuthenticated} />
           </>
         )}
       </div>
@@ -63,7 +63,7 @@ export default function HomeView({ isAuthenticated }) {
                 Science
               </Typography>
             </div>
-            <BookCarousel onClick={true} books={bookSet2} />
+            <BookCarousel onClick={true} books={bookSet2} isAuthenticated={isAuthenticated} />
           </>
         )}
       </div>
@@ -75,7 +75,7 @@ export default function HomeView({ isAuthenticated }) {
                 Art
               </Typography>
             </div>
-            <BookCarousel onClick={true} books={bookSet3} />
+            <BookCarousel onClick={true} books={bookSet3} isAuthenticated={isAuthenticated} />
           </>
         )}
       </div>

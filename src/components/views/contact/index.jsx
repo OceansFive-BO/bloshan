@@ -6,7 +6,6 @@ import {
   Button,
   Snackbar,
   Alert,
-  Link
 } from '@mui/material';
 
 import { useTheme } from '@mui/material/styles';
@@ -21,8 +20,9 @@ const ContactForm = ({ isLoggedIn, userData }) => {
     firstname: '',
     lastname: '',
     email: '',
-    subject: '',
+    message: '',
   });
+
   const [errors, setErrors] = useState({});
   const [charCount, setCharCount] = useState(0);
   const [popupOpen, setPopupOpen] = useState(false);
@@ -33,7 +33,7 @@ const ContactForm = ({ isLoggedIn, userData }) => {
         firstname: userData.firstname || '',
         lastname: userData.lastname || '',
         email: userData.email || '',
-        subject: '',
+        message: '',
       });
     }
   }, [isLoggedIn, userData]);
@@ -45,7 +45,7 @@ const ContactForm = ({ isLoggedIn, userData }) => {
       [name]: value,
     }));
 
-    if (name === 'subject') {
+    if (name === 'message') {
       setCharCount(value.length);
     }
   };
@@ -72,12 +72,12 @@ const ContactForm = ({ isLoggedIn, userData }) => {
       newErrors.email = 'Email cannot exceed 60 characters.';
     }
 
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Message body is required.';
-    } else if (formData.subject.length < 50) {
-      newErrors.subject = 'Message must be at least 50 characters long.';
-    } else if (formData.subject.length > 1000) {
-      newErrors.subject = 'Message cannot exceed 1000 characters.';
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message body is required.';
+    } else if (formData.message.length < 50) {
+      newErrors.message = 'Message must be at least 5 characters long.';
+    } else if (formData.message.length > 1000) {
+      newErrors.message = 'Message cannot exceed 1000 characters.';
     }
 
     setErrors(newErrors);
@@ -92,16 +92,15 @@ const ContactForm = ({ isLoggedIn, userData }) => {
     }
 
     axios
-      .post('/api/contact', formData)
+      .post('http://localhost:3000/contact', formData)
       .then(() => {
         setPopupOpen(true);
         setTimeout(() => setPopupOpen(false), 10000);
-
         setFormData({
           firstname: '',
           lastname: '',
           email: '',
-          subject: '',
+          message: '',
         });
         setCharCount(0);
       })
@@ -282,7 +281,7 @@ const ContactForm = ({ isLoggedIn, userData }) => {
                     sx={{ width: '25%', paddingRight: 2 }}
                   >
                     <Typography
-                      htmlFor="subject"
+                      htmlFor="message"
                       component="label"
                       sx={{ color: 'text.primary', fontWeight: 'bold' }}
                     >
@@ -291,18 +290,18 @@ const ContactForm = ({ isLoggedIn, userData }) => {
                   </Box>
                   <Box className="col-75" sx={{ width: '75%' }}>
                     <TextField
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
+                      id="message"
+                      name="message"
+                      value={formData.message}
                       onChange={handleChange}
                       placeholder="Tell us more about your needs.."
                       variant="outlined"
                       multiline
                       rows={6}
                       fullWidth
-                      error={!!errors.subject}
+                      error={!!errors.message}
                       helperText={
-                        errors.subject ||
+                        errors.message ||
                         (charCount < 50
                           ? `Minimum required characters left: ${50 - charCount}`
                           : 'Minimum reached')
@@ -344,7 +343,7 @@ const ContactForm = ({ isLoggedIn, userData }) => {
                     color: 'text.primary',
                     fontWeight: 'bold',
                     marginTop: '25%',
-                    marginBottom: '20px'
+                    marginBottom: '20px',
                   }}
                 >
                   You're in good company.
@@ -355,8 +354,8 @@ const ContactForm = ({ isLoggedIn, userData }) => {
                     color: 'background.paper',
                   }}
                 >
-                  Keep up to date on the newest releases with some of our favorite book
-                  resources.
+                  Keep up to date on the newest releases with some of our
+                  favorite book resources.
                 </Typography>
               </Box>
               <Box className="form-text-content">

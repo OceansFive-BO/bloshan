@@ -6,9 +6,9 @@ import styled from '@mui/system/styled';
 import propTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import './styles/SearchView.css';
+import './styles/searchView.css';
 
-export default function SearchView ({ searchString }) {
+export default function SearchView ({ searchString, isAuthenticated }) {
 
   const [books, setBooks] = useState([]);
 
@@ -36,7 +36,7 @@ export default function SearchView ({ searchString }) {
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {books.map((book, index) => (
           <Grid key={index} size={{ xs: 2, sm: 4 }}>
-            <BookCard book={book} />
+            <BookCard book={book} onClick={true} isAuthenticated={isAuthenticated} />
           </Grid>
         ))}
       </Grid>
@@ -46,4 +46,5 @@ export default function SearchView ({ searchString }) {
 
 SearchView.propTypes = {
   searchString: propTypes.string,
+  isAuthenticated: propTypes.bool.isRequired,
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Box, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -75,7 +75,7 @@ export default function Footer() {
             </Box>
           </Box>
         </Box>
-        <Box SX={{ display: 'flex', justifyContent: 'center', width: '70%' }}>
+        <Box>
           <Typography
             variant="h5"
             sx={{

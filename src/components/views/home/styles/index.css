@@ -4,13 +4,16 @@
   align-items: center;
   padding: 20px;
   margin: 20px 0;
-    position: relative;
-      top: 50px;
-      height: 100%;
+
+  position: relative;
+  top: 50px;
+  height: 100%;
 }
+
 .home-category {
   margin-bottom: 20px;
 }
+
 .section-title {
   margin-left: 30px;
 }

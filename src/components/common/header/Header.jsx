@@ -9,7 +9,7 @@ import InputBase from "@mui/material/InputBase";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import "./Header.css";
+import "./header.css";
 import LoginIcon from "@mui/icons-material/Login";
 import { Link, useNavigate } from "react-router-dom";
 import propTypes from "prop-types";
@@ -100,7 +100,7 @@ export default function Header({
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block", mr: 5, ml: 5 } }}
+            sx={{ display: { xs: 'none', sm: 'block', mr: 5, ml: 5 } }}
           >
             BookSwap
           </Typography>
@@ -169,28 +169,30 @@ export default function Header({
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton size="large" color="inherit">
-              <Link className="header-link" to={"/home"}>
+              <Link className="header-link" to={'/home'}>
                 <HomeIcon />
               </Link>
             </IconButton>
 
             {!isAuthenticated && (
-              <IconButton size="large" color="inherit">
-                <Link
-                  className="header-link"
-                  onClick={() => loginWithRedirect()}
-                >
+              <IconButton
+                size="large"
+                color="inherit"
+                onClick={() => loginWithRedirect()}
+              >
+                <Link className="header-link">
                   <LoginIcon />
                 </Link>
               </IconButton>
             )}
 
             {isAuthenticated && (
-              <IconButton size="large" color="inherit">
-                <Link
-                  className="header-link"
-                  onClick={() => logoutWithRedirect()}
-                >
+              <IconButton
+                size="large"
+                color="inherit"
+                onClick={() => logoutWithRedirect()}
+              >
+                <Link className="header-link">
                   <LogoutIcon />
                 </Link>
               </IconButton>
@@ -198,23 +200,23 @@ export default function Header({
 
             {isAuthenticated && (
               <IconButton size="large" edge="end" color="inherit">
-                <Link className="header-link" to={"/profile"}>
+                <Link className="header-link" to={'/profile'}>
                   <AccountCircle />
                 </Link>
               </IconButton>
             )}
 
             {!isAuthenticated && (
-              <IconButton size="large" color="inherit">
-              <Link
-                className="header-link"
+              <IconButton
+                size="large"
+                color="inherit"
                 onClick={() => loginWithRedirect()}
               >
-                <AccountCircle />
-              </Link>
-            </IconButton>
+                <Link className="header-link">
+                  <AccountCircle />
+                </Link>
+              </IconButton>
             )}
-
           </Box>
         </Toolbar>
       </AppBar>
