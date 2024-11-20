@@ -2,32 +2,38 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Dim background */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1000; /* Ensure modal overlays all other content */
 }
 
 .modal-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  width: 90%;
-  max-width: 600px;
+  width: 90vw; /* Responsive width */
+  max-width: 800px; /* Limit the maximum width */
+  max-height: 90vh; /* Limit height to fit in viewport */
+  overflow-y: auto; /* Add scrolling for content that overflows */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   text-align: left;
+  position: relative; /* Makes child absolute positioning relative to this */
 }
 
 .close-modal {
+  position: absolute; /* Position relative to modal-content */
+  top: 10px; /* Adjust for spacing */
+  right: 10px; /* Adjust for spacing */
   background: none;
   border: none;
   color: #008cba;
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  float: right;
+  z-index: 1100; /* Ensure it’s above other content */
 }
 
 .modal-header {
@@ -37,22 +43,25 @@
 .modal-header h2 {
   margin: 0;
   font-size: 2rem;
+  color: black !important;
 }
 
 .modal-header p {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.5rem !important;
   color: #666;
 }
 
 .modal-body {
   display: flex;
+  flex-direction: column; /* Stack the image and details vertically */
   gap: 20px;
+  height: calc(100% - 60px); /* Adjust for modal header and footer */
 }
 
 .book-image {
-  width: 150px;
-  height: 200px;
+  width: 200px;
+  height: 300px;
   object-fit: cover;
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -60,8 +69,9 @@
 
 .book-details {
   flex: 1;
-  font-size: 1rem;
+  font-size: 2rem;
   color: #333;
+  overflow-y: auto; /* Allow the content to scroll if it overflows */
 }
 
 .book-details p {
@@ -85,4 +95,22 @@
 
 .borrow-button:hover {
   background-color: #008cba;
+}
+
+.likes-section {
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Vertically center items */
+  gap: 8px; /* Add spacing between the heart icon and the like count */
+  font-size: 2rem;
+}
+
+.success-message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  height: 100%; /* Take up the full height of the modal */
+  text-align: center;
+  position: relative; /* Prevent interference with the X button */
+  z-index: 1; /* Ensure it appears above the background but below the X button */
 }

@@ -9,16 +9,19 @@
   padding: 20px;
   max-width: 80%;
   margin: 0 auto;
+
   position: relative;
+  height: 100%;
   top: 50px;
 }
 
 .profile-alt-page {
-  position: relative;
-  top: 50px;
   padding: 20px;
   max-width: 80%;
+
+  position: relative;
   height: 100vh;
+  top: 50px;
 }
 
 .profile-header {
