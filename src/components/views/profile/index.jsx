@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './profile.css';
 import BookCarousel from '../../common/bookCarousel/BookCarousel.jsx';
@@ -6,11 +6,9 @@ import propTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 
 function ProfilePage({ user }) {
-  console.log(user);
-  // const [userData, setUserData] = useState(null);
+
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
-  const userId = '6736472090d8a0d1e7b37c9e'; // TODO Replace with token
 
   const [showModal, setShowModal] = useState(false);
   const [bookSearch, setBookSearch] = useState('');
@@ -22,7 +20,10 @@ function ProfilePage({ user }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
+  if (!user) {
+    return <Navigate to="/home" replace />;
+  }
+  const userId = user._id;
   const calculateAge = (birthDate) => {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -164,18 +165,16 @@ function ProfilePage({ user }) {
     fetchUserData();
   }, [userId]);
 
-  if (!user) {
-    return <Navigate to="/home" replace />;
-  }
+
 
   return (
     <div className="profile-page">
       {/* Profile Header */}
       <div className="profile-header">
-        <img src={user?.picture} alt="Profile" className="profile-pic" />
+        <img src={user?.photo_url} alt="Profile" className="profile-pic" />
         <div className="profile-info">
           <h2>{user?.username}</h2>
-          <p className="full-name">{`${user?.name}`}</p>
+          <p className="full-name">{`${user?.firstname} ${user?.lastname}`}</p>
           <p>Email: {user?.email}</p>
           <p>Phone: {user?.phone}</p>
           <p>Address: {user?.address}</p>
