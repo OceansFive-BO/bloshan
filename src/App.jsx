@@ -41,15 +41,18 @@ const App = () => {
         />
         <Container className="flex-grow-1 mt-5">
           <Routes>
-            <Route path="/home"  element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/profile" element={<Profile user={user} />} />
             <Route path="/tos" element={<TermsOfService />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/search" element={<SearchView searchString={search} />} />
             <Route
-              path="/"
-              element={<Reroute/>}
+              path="/contact"
+              element={
+                <Contact userData={user} isLoggedIn={isAuthenticated} />
+              }
             />
+            <Route path="/" element={<Reroute />} />
           </Routes>
         </Container>
         <Footer />

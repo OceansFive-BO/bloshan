@@ -6,7 +6,7 @@ import styled from '@mui/system/styled';
 import propTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import './styles/SearchView.css';
+import './styles/searchView.css';
 
 export default function SearchView ({ searchString }) {
 
