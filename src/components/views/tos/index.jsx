@@ -1,10 +1,13 @@
-import { Container, Typography, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import "./tos.css";
+import { Container, Typography, Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useEffect } from 'react';
+import './tos.css';
 
 const Tos = () => {
   const theme = useTheme();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Container maxWidth="lg" className="terms-container" color="text.primary">
       <Typography variant="h4" color="primary.main" align="left" gutterBottom>

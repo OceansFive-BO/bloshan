@@ -81,17 +81,19 @@
   cursor: pointer;
 }
 
-
 .bn {
   cursor: pointer;
   height: 90px;
 }
+
 .penguin {
   height: 70px;
 }
+
 .bwb {
   height: 60px;
 }
+
 .row::after {
   content: "";
   display: table;
