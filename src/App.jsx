@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Routes, Route,useNavigate } from "react-router-dom";
@@ -24,24 +24,27 @@ const App = () => {
   const [search, setSearch] = useState('');
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [userData,setUserData]=useState(user);
-  const getUserId = async()=>{
-    try{
-      const userResponse = await axios.get(
-        `http://localhost:3000/users/email/${user.email}`
-      );
-      const newUser = {email:user?.email,...userResponse.data}
-      setUserData(newUser);
-    }catch(error){
-      console.log("error: ",error );
+
+  useEffect(() => {
+    if (user) {
+      axios.get(`http://localhost:3000/users/email/${user.email}`)
+        .then((response) => {
+          setUserData({email:user?.email,...response.data});
+        })
+        .catch((err) => console.log(err));
     }
-  }
-  getUserId();
+  }, [user]);
+
   const logoutWithRedirect = () =>
     logout({
       logoutParams: {
         returnTo: window.location.origin,
       },
     });
+
+  const test = () => {
+    console.log('test');
+  };
 
   return (
     <Router>
@@ -65,7 +68,10 @@ const App = () => {
             />
           </Routes>
         </Container>
+
+
         <Footer />
+        <button onClick={test}>test</button>
       </div>
     </Router>
   );
