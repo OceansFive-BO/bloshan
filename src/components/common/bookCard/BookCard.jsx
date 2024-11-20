@@ -100,13 +100,13 @@ export default function BookCard({
             book.title,
             showFullTitle,
             () => setShowFullTitle(!showFullTitle),
-            23
+            22
           )}
           subheader={truncateText(
             book.author,
             showFullAuthor,
             () => setShowFullAuthor(!showFullAuthor),
-            36
+            30
           )}
         />
         <CardMedia
@@ -156,13 +156,13 @@ export default function BookCard({
       {/* Render BookModal when showModal is true */}
       {showModal && (
         <BookModal
-          id={book.id}
+          id={book._id}
           title={book.title}
           author={book.author}
           ratings={book.ratings}
           description={book.description}
           userNotes={book.userNotes}
-          publishDate={book.publishDate}
+          publishDate={book.publish_date}
           genre={book.genre}
           image={book.image}
           likes={book.likes}
