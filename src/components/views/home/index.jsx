@@ -5,14 +5,14 @@ import './styles/index.css';
 import { Typography } from '@mui/material';
 import axios from 'axios';
 
-export default function HomeView ({ isAuthenticated }) {
-
+export default function HomeView({ isAuthenticated }) {
   const [bookSet1, setBookSet1] = useState([]);
   const [bookSet2, setBookSet2] = useState([]);
   const [bookSet3, setBookSet3] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/books/genre/fiction`)
+    axios
+      .get(`http://localhost:3000/books/genre/fiction`)
       .then((response) => {
         setBookSet1(response.data);
       })
@@ -21,7 +21,8 @@ export default function HomeView ({ isAuthenticated }) {
       });
   }, []);
   useEffect(() => {
-    axios.get(`http://localhost:3000/books/genre/science`)
+    axios
+      .get(`http://localhost:3000/books/genre/science`)
       .then((response) => {
         setBookSet2(response.data);
       })
@@ -30,7 +31,8 @@ export default function HomeView ({ isAuthenticated }) {
       });
   }, []);
   useEffect(() => {
-    axios.get(`http://localhost:3000/books/genre/art`)
+    axios
+      .get(`http://localhost:3000/books/genre/art`)
       .then((response) => {
         setBookSet3(response.data);
       })
@@ -45,7 +47,9 @@ export default function HomeView ({ isAuthenticated }) {
         {bookSet1.length && (
           <>
             <div className="section-title">
-              <Typography variant="h4" align="left">Fiction</Typography>
+              <Typography variant="h4" align="left">
+                Fiction
+              </Typography>
             </div>
             <BookCarousel onClick={true} books={bookSet1} />
           </>
@@ -55,7 +59,9 @@ export default function HomeView ({ isAuthenticated }) {
         {bookSet2.length && (
           <>
             <div className="section-title">
-              <Typography variant="h4" align="left">Science</Typography>
+              <Typography variant="h4" align="left">
+                Science
+              </Typography>
             </div>
             <BookCarousel onClick={true} books={bookSet2} />
           </>
@@ -65,7 +71,9 @@ export default function HomeView ({ isAuthenticated }) {
         {bookSet3.length && (
           <>
             <div className="section-title">
-              <Typography variant="h4" align="left">Art</Typography>
+              <Typography variant="h4" align="left">
+                Art
+              </Typography>
             </div>
             <BookCarousel onClick={true} books={bookSet3} />
           </>
@@ -73,7 +81,7 @@ export default function HomeView ({ isAuthenticated }) {
       </div>
     </div>
   );
-};
+}
 
 HomeView.propTypes = {
   isAuthenticated: propTypes.bool.isRequired,
