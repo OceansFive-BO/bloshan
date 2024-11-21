@@ -1,11 +1,10 @@
 import './bookCard.css';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import propTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -117,83 +116,109 @@ export default function BookCard({
     <>
       <Card
         className="book-card"
-        sx={{ maxWidth: 345 }}
+        sx={{
+          maxWidth: 345,
+          boxShadow: '2px 0px 10px rgba(0, 0, 0, 0.35)',
+          margin: '3px',
+          padding: '3px',
+        }}
         onClick={handleCardClick}
       >
-        <CardHeader
-          title={truncateText(
-            book.title,
-            showFullTitle,
-            () => setShowFullTitle(!showFullTitle),
-            22
-          )}
-          subheader={truncateText(
-            book.author,
-            showFullAuthor,
-            () => setShowFullAuthor(!showFullAuthor),
-            30
-          )}
-        />
-        <CardMedia
-          component="img"
-          height="250"
-          image={
-            book.image
-              ? book.image
-              : 'https://media.istockphoto.com/id/495477978/photo/open-book.jpg?s=612x612&w=0&k=20&c=vwJ6__M7CVPdjkQFUv9j2pr7QJiQ9bWW_5jXjR9TcjY='
-          }
-          alt="Book Cover"
-        />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {truncateText(
-              book.description,
-              showFullDescription,
-              () => setShowFullDescription(!showFullDescription),
-              200
-            )}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton
-            aria-label="like book"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleLike();
+        <div className="book-card-container">
+          <CardHeader
+            className="book-card-title"
+            titleTypographyProps={{
+              variant: 'h6',
+              sx: { fontSize: '1rem', fontWeight: '600' },
             }}
-          >
-            <FavoriteIcon style={{ color: isLiked ? '#f50057' : 'grey' }} />
-          </IconButton>
-          <Typography variant="body2" style={{ marginLeft: '8px' }}>
-            {likeCount}
-          </Typography>
+            subheaderTypographyProps={{
+              variant: 'subtitle2',
+              sx: { fontSize: '0.8rem', fontStyle: 'italic' },
+            }}
+            title={truncateText(
+              book.title,
+              showFullTitle,
+              () => setShowFullTitle(!showFullTitle),
+              22
+            )}
+            subheader={truncateText(
+              book.author,
+              showFullAuthor,
+              () => setShowFullAuthor(!showFullAuthor),
+              30
+            )}
+          />
 
-          {/* Conditionally render either the "Confirm Return" or "Remove" button */}
+          <div className="book-card-content">
+            <CardActions disableSpacing>
+              <div className="like-return">
+                <div className="like-count">
+                  <IconButton
+                    aria-label="like book"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLike();
+                    }}
+                  >
+                    <FavoriteIcon
+                      style={{ color: isLiked ? '#f50057' : 'grey' }}
+                    />
+                  </IconButton>
+                  <Typography variant="body2" style={{ marginLeft: '8px' }}>
+                    {likeCount}
+                  </Typography>
+                </div>
 
-          {showConfirmReturnButton && !book.available && (
-            <button
-              className="confirm-return-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleConfirmReturn(book._id);
-              }}
-            >
-              Confirm Return
-            </button>
-          )}
-
-          {remove && book.available && (
-            <button
-              className="confirm-return-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemove();
-              }}
-            >
-              Remove From Listing
-            </button>
-          )}
-        </CardActions>
+                {showConfirmReturnButton && !book.available && (
+                  <button
+                    className="confirm-return-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleConfirmReturn(book._id);
+                    }}
+                  >
+                    Confirm Return
+                  </button>
+                )}
+                {remove && book.available && (
+                  <button
+                    className="confirm-return-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemove();
+                    }}
+                  >
+                    Remove From Listing
+                  </button>
+                )}
+              </div>
+            </CardActions>
+          </div>
+        </div>
+        <div className="flip-card">
+          <div className="flip-card-inner">
+            <div className="flip-card-front">
+              <CardMedia
+                className="book-cover"
+                component="img"
+                height="250"
+                image={
+                  book.image
+                    ? book.image
+                    : 'https://media.istockphoto.com/id/495477978/photo/open-book.jpg?s=612x612&w=0&k=20&c=vwJ6__M7CVPdjkQFUv9j2pr7QJiQ9bWW_5jXjR9TcjY='
+                }
+                alt="Book Cover"
+              />
+            </div>
+            <div className="flip-card-back">
+              <div className="content-container">
+                <Typography variant="body2" color="text.secondary">
+                  {book.description || 'No description available'}
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </div>
       </Card>
 
       {showErrorModal && (
@@ -209,7 +234,6 @@ export default function BookCard({
         </div>
       )}
 
-      {/* Render BookModal when showModal is true */}
       {showModal && <BookModal book={book} onClose={closeModal} user={user} />}
     </>
   );

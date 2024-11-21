@@ -14,7 +14,8 @@ import circles from './circles.jsx';
 import bnLogo from '../../../assets/bn.png';
 import './contactform.css';
 
-const ContactForm = ({ isLoggedIn, userData }) => {
+const ContactForm = ({user, isAuthenticated}) => {
+  // console.log('test', user, isAuthenticated);
   const theme = useTheme();
   const [formData, setFormData] = useState({
     firstname: '',
@@ -28,15 +29,15 @@ const ContactForm = ({ isLoggedIn, userData }) => {
   const [popupOpen, setPopupOpen] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn && userData) {
+    if (isAuthenticated && user) {
       setFormData({
-        firstname: userData.firstname || '',
-        lastname: userData.lastname || '',
-        email: userData.email || '',
+        firstname: user.firstname || '',
+        lastname: user.lastname || '',
+        email: user.email || '',
         message: '',
       });
     }
-  }, [isLoggedIn, userData]);
+  }, [isAuthenticated, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
