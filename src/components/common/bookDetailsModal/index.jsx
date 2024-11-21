@@ -198,7 +198,6 @@ function BookModal({ book, onClose, user }) {
                   )}
                 </div>
               </div>
-
               <div className="book-description">
                 <strong>Description:</strong> {description}
               </div>
