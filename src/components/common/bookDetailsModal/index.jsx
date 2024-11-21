@@ -118,7 +118,15 @@ function BookModal({ book, onClose, user }) {
 
             <div className="modal-body">
               <div className="book-details-container">
-                <img src={image} alt={title} className="book-image" />
+                <img
+                  src={
+                    image
+                      ? image
+                      : 'https://media.istockphoto.com/id/495477978/photo/open-book.jpg?s=612x612&w=0&k=20&c=vwJ6__M7CVPdjkQFUv9j2pr7QJiQ9bWW_5jXjR9TcjY='
+                  }
+                  alt={title}
+                  className="book-image"
+                />
 
                 <div className="book-details">
                   <p>
