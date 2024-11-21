@@ -140,12 +140,6 @@ function ProfilePage({ user }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Fetch user details
-        // const userResponse = await axios.get(
-        //   `http://localhost:3000/users/${userId}`
-        // );
-        // setUserData(userResponse.data);
-
         // Fetch borrowed books
         const borrowedResponse = await axios.get(
           `http://localhost:3000/users/${userId}/borrowed`
@@ -166,6 +160,27 @@ function ProfilePage({ user }) {
   }, [userId]);
 
 
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+    return () => document.body.classList.remove('no-scroll');
+  }, [showModal]);
+
+  const handleBackgroundClick = (e) => {
+    if (e.target.classList.contains('modal')) {
+      closeModal();
+    }
+  };
+
+  const removeBookFromListed = (bookId) => {
+    setListedBooks((prevBooks) =>
+      prevBooks.filter((book) => book._id !== bookId)
+    );
+  };
 
   return (
     <div className="profile-page">
@@ -193,18 +208,24 @@ function ProfilePage({ user }) {
           books={listedBooks}
           showConfirmReturnButton={true}
           handleConfirmReturn={handleConfirmReturn}
+          onClick={true}
+          remove={removeBookFromListed}
         />
       </div>
 
       {/* Books Borrowed */}
       <div className="books-borrowed">
         <h3>Books I've Borrowed</h3>
-        <BookCarousel books={borrowedBooks} />
+        <BookCarousel
+          books={borrowedBooks}
+          onClick={true}
+          isAuthenticated={true}
+        />
       </div>
 
       {/* Modal for Adding a New Book */}
       {showModal && (
-        <div className="modal">
+        <div className="modal" onClick={handleBackgroundClick}>
           <div className="modal-content">
             <button className="close-modal" onClick={closeModal}>
               X
@@ -221,7 +242,7 @@ function ProfilePage({ user }) {
             />
 
             {/* Loading Indicator */}
-            {loading && <p>Loading...</p>}
+            {loading && <p className="success-message">Loading...</p>}
 
             {/* Book List */}
             <ul className="book-list">
@@ -246,7 +267,7 @@ function ProfilePage({ user }) {
               ))}
               {/* No Results Message */}
               {!loading && bookSearch.length >= 3 && bookList.length === 0 && (
-                <p>No book with that title found</p>
+                <p className="success-message">No book with that title found</p>
               )}
             </ul>
 

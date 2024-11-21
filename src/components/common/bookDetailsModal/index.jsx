@@ -1,26 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './BookModal.css';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 
-function BookModal({
-  id,
-  title,
-  author,
-  ratings,
-  description,
-  userNotes,
-  publishDate,
-  genre,
-  image,
-  likes,
-  onClose,
-}) {
+function BookModal({ book, onClose }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [likeCount, setLikeCount] = useState(0);
+  const [ownerDetails, setOwnerDetails] = useState(null);
+
+  const {
+    title,
+    author,
+    ratings,
+    description,
+    userNotes,
+    publish_date,
+    genre,
+    image,
+    likes,
+    userID,
+  } = book;
+
+  useEffect(() => {
+    setLikeCount(likes);
+    console.log('book: ', book);
+    console.log('userID: ', userID);
+    // Fetch owner details
+    const fetchOwnerDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/users/${book.userID}`
+        );
+        setOwnerDetails(response.data);
+        console.log('owner: ', ownerDetails); // Store owner details
+      } catch (error) {
+        console.error('Error fetching owner details:', error);
+      }
+    };
+    fetchOwnerDetails();
+
+    // Disable scrolling when modal opens
+    document.body.classList.add('no-scroll');
+    return () => {
+      // Re-enable scrolling when modal closes
+      document.body.classList.remove('no-scroll');
+    };
+  }, []);
 
   const formatDate = (dateString) => {
     console.log('publishDate:', dateString); // Debugging
@@ -29,9 +57,10 @@ function BookModal({
   };
 
   const handleLike = async () => {
+    if (isLiked) return;
     try {
       const response = await axios.put(
-        `http://localhost:3000/books/${id}/like`
+        `http://localhost:3000/books/${book._id}/like`
       );
       if (response.status === 204) {
         setIsLiked(true);
@@ -45,7 +74,7 @@ function BookModal({
   const handleBorrowBook = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/books/${id}/lend`
+        `http://localhost:3000/books/${book._id}/lend`
       );
       if (response.status === 204) {
         setSuccessMessage(`${title} has been added to your list!`);
@@ -60,14 +89,20 @@ function BookModal({
     }
   };
 
+  const handleBackgroundClick = (e) => {
+    // Close modal if clicked outside of .modal-content
+    if (e.target.classList.contains('modal')) {
+      onClose();
+    }
+  };
+
   return ReactDOM.createPortal(
-    <div className="modal">
+    <div className="modal" onClick={handleBackgroundClick}>
       <div className="modal-content">
         <button className="close-modal" onClick={onClose}>
           X
         </button>
 
-        {/* Conditional Rendering: Success Message or Book Details */}
         {successMessage ? (
           <div className="success-message-container">
             <h2>{title} has been added to your list!</h2>
@@ -78,48 +113,71 @@ function BookModal({
               <h2>{title}</h2>
               <p>by {author}</p>
             </div>
+
             <div className="modal-body">
-              <img src={image} alt={title} className="book-image" />
+              <div className="book-details-container">
+                <img src={image} alt={title} className="book-image" />
 
-              {/* Likes Section */}
-              <div className="likes-section">
-                <FavoriteIcon
-                  style={{
-                    color: isLiked ? '#f50057' : 'grey',
-                    cursor: 'pointer',
-                  }}
-                  onClick={handleLike}
-                />
-                <p>{likeCount}</p>
+                <div className="book-details">
+                  <p>
+                    <strong>Published:</strong> {formatDate(publish_date)}
+                  </p>
+                  <p>
+                    <strong>Genre:</strong> {genre}
+                  </p>
+
+                  {ownerDetails && (
+                    <div className="owner-details">
+                      <p>
+                        <strong>Owner:</strong>{' '}
+                        {`${ownerDetails.firstname} ${ownerDetails.lastname}`}
+                      </p>
+
+                      <p>
+                        <strong>Preferred Contact:</strong>{' '}
+                        {ownerDetails.preferred_contact === 'email'
+                          ? ownerDetails.email
+                          : ownerDetails.preferred_contact === 'phone'
+                            ? ownerDetails.phone
+                            : 'No contact information available'}
+                      </p>
+                    </div>
+                  )}
+                  <p>
+                    <strong>User Notes:</strong> {userNotes}
+                  </p>
+                  {/* Likes Section */}
+                  <div className="likes-section">
+                    <FavoriteIcon
+                      style={{
+                        color: isLiked ? '#f50057' : 'grey',
+                        cursor: 'pointer',
+                      }}
+                      onClick={handleLike}
+                    />
+                    <p>{likeCount}</p>
+                  </div>
+
+                  {book.available && (
+                    <button
+                      className="borrow-button"
+                      onClick={handleBorrowBook}
+                    >
+                      Borrow Book
+                    </button>
+                  )}
+                </div>
               </div>
 
-              <div className="book-details">
-                <p></p>
-                <p>
-                  <strong>Published:</strong> {formatDate(publishDate)}
-                </p>
-                <p>
-                  <strong>Genre:</strong> {genre}
-                </p>
-                <p>
-                  <strong>Description:</strong> {description}
-                </p>
-                <p>
-                  <strong>User Notes:</strong> {userNotes}
-                </p>
+              <div className="book-description">
+                <strong>Description:</strong> {description}
               </div>
-            </div>
-
-            <div className="modal-footer">
-              <button className="borrow-button" onClick={handleBorrowBook}>
-                Borrow Book
-              </button>
             </div>
           </>
         )}
       </div>
     </div>,
-    document.getElementById('modal-root') // Render modal at the root of the DOM
+    document.getElementById('modal-root')
   );
 }
 
