@@ -36,7 +36,7 @@ const App = () => {
           `http://localhost:3000/users/email/${user?.email}`
         );
         const newUser = { email: user?.email, ...userResponse?.data };
-        if (newUser.photo_url.length === 0) {
+        if (newUser.photo_url === 'undefined' || newUser.photo_url === '') {
           newUser.photo_url = user.picture;
         }
         setUserData(newUser);
