@@ -97,13 +97,13 @@ function ProfilePage({ user }) {
       if (!response.data._id) {
         throw new Error('POST request did not return an _id for the book.');
       }
-      //TODO make sure the post request responce with book id
+
       const addedBookResponse = await axios.get(
         `http://localhost:3000/books/${response.data._id}`
       );
       console.log('GET response for added book:', addedBookResponse.data);
 
-      setListedBooks((prevBooks) => [...prevBooks, response.data]);
+      setListedBooks((prevBooks) => [...prevBooks, addedBookResponse.data]);
 
       setError('');
       setSuccessMessage(
