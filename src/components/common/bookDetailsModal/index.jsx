@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 
-function BookModal({ book, onClose }) {
+function BookModal({ book, onClose, user }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -22,6 +22,7 @@ function BookModal({ book, onClose }) {
     image,
     likes,
     userID,
+    borrowerID,
   } = book;
 
   useEffect(() => {
@@ -74,7 +75,8 @@ function BookModal({ book, onClose }) {
   const handleBorrowBook = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/books/${book._id}/lend`
+        `http://localhost:3000/books/${book._id}/lend`,
+        { userID: user?._id } // Pass the borrower ID here
       );
       if (response.status === 204) {
         setSuccessMessage(`${title} has been added to your list!`);
@@ -158,13 +160,33 @@ function BookModal({ book, onClose }) {
                     <p>{likeCount}</p>
                   </div>
 
-                  {book.available && (
+                  {/* If the book is available and the user is not the owner, show "Borrow Book" */}
+                  {book.available && user._id !== userID && (
                     <button
                       className="borrow-button"
                       onClick={handleBorrowBook}
                     >
                       Borrow Book
                     </button>
+                  )}
+                  {/* If the book is not available and the user is not the owner nor the borrower */}
+                  {!book.available &&
+                    user._id !== userID &&
+                    user._id !== book.borrowerID && (
+                      <p className="info-text">
+                        Sorry, someone is borrowing this book at the moment.
+                        Check back later.
+                      </p>
+                    )}
+                  {/* If the user is the borrower */}
+                  {!book.available && user._id === book.borrowerID && (
+                    <p className="info-text">
+                      You are currently borrowing this book. Enjoy reading!
+                    </p>
+                  )}
+                  {/* If the user is the owner */}
+                  {user._id === userID && (
+                    <p className="info-text">You are the owner of this book.</p>
                   )}
                 </div>
               </div>

@@ -20,6 +20,7 @@ export default function BookCard({
   showConfirmReturnButton = false,
   handleConfirmReturn,
   remove = false,
+  user,
 }) {
   const [showModal, setShowModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -205,7 +206,7 @@ export default function BookCard({
       )}
 
       {/* Render BookModal when showModal is true */}
-      {showModal && <BookModal book={book} onClose={closeModal} />}
+      {showModal && <BookModal book={book} onClose={closeModal} user={user} />}
     </>
   );
 }
@@ -228,4 +229,5 @@ BookCard.propTypes = {
   showConfirmReturnButton: propTypes.bool,
   handleConfirmReturn: propTypes.func,
   remove: propTypes.bool,
+  user: propTypes.object,
 };

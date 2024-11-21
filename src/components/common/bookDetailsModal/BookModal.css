@@ -106,6 +106,13 @@
   margin-top: 70px;
 }
 
+.info-text {
+  align-self: flex-start;
+  font-size: 14px;
+  color: red !important;
+  margin-top: 70px !important;
+}
+
 .borrow-button:hover {
   background-color: #008cba;
 }

@@ -66,22 +66,19 @@ const App = () => {
           <Routes>
             <Route
               path="/home"
-              element={<Home isAuthenticated={isAuthenticated} />}
-            />
-            <Route path="/profile" element={<Profile user={user} />} />
-            <Route
-              path="/home"
-              element={<Home isAuthenticated={isAuthenticated} />}
+              element={
+                <Home isAuthenticated={isAuthenticated} user={userData} />
+              }
             />
             <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/tos" element={<TermsOfService />} />
-            <Route path="/contact" element={<Contact />} />
             <Route
               path="/search"
               element={
                 <SearchView
                   isAuthenticated={isAuthenticated}
                   searchString={search}
+                  user={userData}
                 />
               }
             />
