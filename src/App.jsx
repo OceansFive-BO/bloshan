@@ -36,6 +36,9 @@ const App = () => {
           `http://localhost:3000/users/email/${user?.email}`
         );
         const newUser = { email: user?.email, ...userResponse?.data };
+        if (newUser.photo_url.length === 0) {
+          newUser.photo_url = user.picture;
+        }
         setUserData(newUser);
       } catch (error) {
         console.log('error: ', error);
@@ -62,7 +65,7 @@ const App = () => {
           loginWithRedirect={loginWithRedirect}
           logoutWithRedirect={logoutWithRedirect}
         />
-        <Container className="flex-grow-1 mt-5">
+        <Container className="flex-grow-1 mt-5 body-container">
           <Routes>
             <Route
               path="/home"
