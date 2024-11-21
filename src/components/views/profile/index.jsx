@@ -6,7 +6,6 @@ import propTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 
 function ProfilePage({ user }) {
-
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [listedBooks, setListedBooks] = useState([]);
 
@@ -23,6 +22,7 @@ function ProfilePage({ user }) {
   if (!user) {
     return <Navigate to="/home" replace />;
   }
+  console.log('user', user);
   const userId = user._id;
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -91,7 +91,19 @@ function ProfilePage({ user }) {
         'http://localhost:3000/books/',
         bookData
       );
-      console.log('Book listed successfully:', response.data);
+
+      console.log('POST request:', response.data);
+
+      if (!response.data._id) {
+        throw new Error('POST request did not return an _id for the book.');
+      }
+
+      const addedBookResponse = await axios.get(
+        `http://localhost:3000/books/${response.data._id}`
+      );
+      console.log('GET response for added book:', addedBookResponse.data);
+
+      setListedBooks((prevBooks) => [...prevBooks, addedBookResponse.data]);
 
       setError('');
       setSuccessMessage(
@@ -101,7 +113,7 @@ function ProfilePage({ user }) {
       setTimeout(() => {
         setSuccessMessage('');
         closeModal();
-      }, 5000);
+      }, 3000);
     } catch (error) {
       console.error('Error adding book:', error);
       setError('An error occurred while adding the book. Please try again.');
@@ -140,12 +152,6 @@ function ProfilePage({ user }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Fetch user details
-        // const userResponse = await axios.get(
-        //   `http://localhost:3000/users/${userId}`
-        // );
-        // setUserData(userResponse.data);
-
         // Fetch borrowed books
         const borrowedResponse = await axios.get(
           `http://localhost:3000/users/${userId}/borrowed`
@@ -165,7 +171,26 @@ function ProfilePage({ user }) {
     fetchUserData();
   }, [userId]);
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+    return () => document.body.classList.remove('no-scroll');
+  }, [showModal]);
 
+  const handleBackgroundClick = (e) => {
+    if (e.target.classList.contains('modal')) {
+      closeModal();
+    }
+  };
+
+  const removeBookFromListed = (bookId) => {
+    setListedBooks((prevBooks) =>
+      prevBooks.filter((book) => book._id !== bookId)
+    );
+  };
 
   return (
     <div className="profile-page">
@@ -193,18 +218,27 @@ function ProfilePage({ user }) {
           books={listedBooks}
           showConfirmReturnButton={true}
           handleConfirmReturn={handleConfirmReturn}
+          onClick={true}
+          remove={removeBookFromListed}
+          isAuthenticated={true}
+          user={user}
         />
       </div>
 
       {/* Books Borrowed */}
       <div className="books-borrowed">
         <h3>Books I've Borrowed</h3>
-        <BookCarousel books={borrowedBooks} />
+        <BookCarousel
+          books={borrowedBooks}
+          onClick={true}
+          isAuthenticated={true}
+          user={user}
+        />
       </div>
 
       {/* Modal for Adding a New Book */}
       {showModal && (
-        <div className="modal">
+        <div className="modal" onClick={handleBackgroundClick}>
           <div className="modal-content">
             <button className="close-modal" onClick={closeModal}>
               X
@@ -221,7 +255,7 @@ function ProfilePage({ user }) {
             />
 
             {/* Loading Indicator */}
-            {loading && <p>Loading...</p>}
+            {loading && <p className="success-message">Loading...</p>}
 
             {/* Book List */}
             <ul className="book-list">
@@ -246,7 +280,7 @@ function ProfilePage({ user }) {
               ))}
               {/* No Results Message */}
               {!loading && bookSearch.length >= 3 && bookList.length === 0 && (
-                <p>No book with that title found</p>
+                <p className="success-message">No book with that title found</p>
               )}
             </ul>
 

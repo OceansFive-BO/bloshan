@@ -15,11 +15,16 @@ import axios from 'axios';
 
 export default function BookCard({
   book,
+  isAuthenticated,
   onClick = false,
   showConfirmReturnButton = false,
   handleConfirmReturn,
+  remove = false,
+  user,
 }) {
   const [showModal, setShowModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(book.likes || 0);
 
@@ -28,6 +33,11 @@ export default function BookCard({
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const handleCardClick = () => {
+    if (!isAuthenticated) {
+      setShowErrorModal(true);
+      setTimeout(() => setShowErrorModal(false), 3000); // Auto-close error modal after 3 seconds
+      return;
+    }
     if (onClick) {
       setShowModal(true);
     }
@@ -38,6 +48,7 @@ export default function BookCard({
   };
 
   const handleLike = async () => {
+    if (isLiked) return;
     try {
       const response = await axios.put(
         `http://localhost:3000/books/${book._id}/like`
@@ -48,6 +59,20 @@ export default function BookCard({
       }
     } catch (error) {
       console.error('Error liking the book:', error);
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/books/${book._id}`
+      );
+      if (response.status === 204) {
+        // setShowRemoveModal(true);
+        remove && remove(book._id);
+      }
+    } catch (error) {
+      console.error('Error removing the book:', error);
     }
   };
 
@@ -112,7 +137,11 @@ export default function BookCard({
         <CardMedia
           component="img"
           height="250"
-          image={book.image}
+          image={
+            book.image
+              ? book.image
+              : 'https://media.istockphoto.com/id/495477978/photo/open-book.jpg?s=612x612&w=0&k=20&c=vwJ6__M7CVPdjkQFUv9j2pr7QJiQ9bWW_5jXjR9TcjY='
+          }
           alt="Book Cover"
         />
         <CardContent>
@@ -139,6 +168,8 @@ export default function BookCard({
             {likeCount}
           </Typography>
 
+          {/* Conditionally render either the "Confirm Return" or "Remove" button */}
+
           {showConfirmReturnButton && !book.available && (
             <button
               className="confirm-return-button"
@@ -150,25 +181,36 @@ export default function BookCard({
               Confirm Return
             </button>
           )}
+
+          {remove && book.available && (
+            <button
+              className="confirm-return-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemove();
+              }}
+            >
+              Remove From Listing
+            </button>
+          )}
         </CardActions>
       </Card>
 
-      {/* Render BookModal when showModal is true */}
-      {showModal && (
-        <BookModal
-          id={book._id}
-          title={book.title}
-          author={book.author}
-          ratings={book.ratings}
-          description={book.description}
-          userNotes={book.userNotes}
-          publishDate={book.publish_date}
-          genre={book.genre}
-          image={book.image}
-          likes={book.likes}
-          onClose={closeModal}
-        />
+      {showErrorModal && (
+        <div className="error-modal">
+          <p>To see the book details, make sure you log in.</p>
+        </div>
       )}
+
+      {showRemoveModal && (
+        <div className="remove-modal">
+          <p>The book has been removed from your listing.</p>
+          <p>Refresh the page to see it's gone.</p>
+        </div>
+      )}
+
+      {/* Render BookModal when showModal is true */}
+      {showModal && <BookModal book={book} onClose={closeModal} user={user} />}
     </>
   );
 }
@@ -187,7 +229,9 @@ BookCard.propTypes = {
     genre: propTypes.string,
     likes: propTypes.number,
   }).isRequired,
-  onClick: propTypes.func,
+  onClick: propTypes.bool,
   showConfirmReturnButton: propTypes.bool,
   handleConfirmReturn: propTypes.func,
+  remove: propTypes.bool,
+  user: propTypes.object,
 };

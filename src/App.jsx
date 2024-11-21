@@ -64,11 +64,24 @@ const App = () => {
         />
         <Container className="flex-grow-1 mt-5">
           <Routes>
-            <Route path="/home" element={<Home isAuthenticated={isAuthenticated}/>} />
+            <Route
+              path="/home"
+              element={
+                <Home isAuthenticated={isAuthenticated} user={userData} />
+              }
+            />
             <Route path="/profile" element={<Profile user={userData} />} />
             <Route path="/tos" element={<TermsOfService />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/search" element={<SearchView isAuthenticated={isAuthenticated} searchString={search} />} />
+            <Route
+              path="/search"
+              element={
+                <SearchView
+                  isAuthenticated={isAuthenticated}
+                  searchString={search}
+                  user={userData}
+                />
+              }
+            />
             <Route
               path="/contact"
               element={
@@ -78,7 +91,6 @@ const App = () => {
             <Route path="/" element={<Reroute />} />
           </Routes>
         </Container>
-
 
         <Footer />
       </div>

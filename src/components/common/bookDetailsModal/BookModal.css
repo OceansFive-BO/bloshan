@@ -9,6 +9,11 @@
   align-items: center;
   justify-content: center;
   z-index: 1000; /* Ensure modal overlays all other content */
+  overflow-y: hidden !important;
+}
+
+.no-scroll {
+  overflow: hidden;
 }
 
 .modal-content {
@@ -16,8 +21,8 @@
   padding: 20px;
   border-radius: 8px;
   width: 90vw; /* Responsive width */
+  height: 75vh !important;
   max-width: 800px; /* Limit the maximum width */
-  max-height: 90vh; /* Limit height to fit in viewport */
   overflow-y: auto; /* Add scrolling for content that overflows */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   text-align: left;
@@ -68,14 +73,20 @@
 }
 
 .book-details {
+  height: 300px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
   font-size: 2rem;
   color: #333;
-  overflow-y: auto; /* Allow the content to scroll if it overflows */
+  justify-content: flex-start;
+  position: relative;
 }
 
 .book-details p {
-  margin: 10px 0;
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 .modal-footer {
@@ -84,6 +95,7 @@
 }
 
 .borrow-button {
+  align-self: flex-start;
   background-color: #f5a623;
   color: white;
   padding: 10px 20px;
@@ -91,6 +103,14 @@
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
+  margin-top: 70px;
+}
+
+.info-text {
+  align-self: flex-start;
+  font-size: 14px;
+  color: red !important;
+  margin-top: 70px !important;
 }
 
 .borrow-button:hover {
@@ -98,10 +118,24 @@
 }
 
 .likes-section {
-  display: flex; /* Enable flexbox */
-  align-items: center; /* Vertically center items */
-  gap: 8px; /* Add spacing between the heart icon and the like count */
-  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 3px; /* Space between the heart icon and the like count */
+}
+
+.likes-section p {
+  margin: 0;
+  font-size: 1rem; /* Match modal content font size */
+  color: #333;
+  line-height: 1; /* Ensure consistent vertical alignment */
+  position: relative; /* Adjust the vertical positioning */
+  top: 4px; /* Fine-tune to lower the like count slightly */
+}
+
+.book-details-container {
+  display: flex;
+  gap: 20px; /* Space between the image and details */
+  align-items: flex-start; /* Align image and details at the top */
 }
 
 .success-message-container {
@@ -113,4 +147,16 @@
   text-align: center;
   position: relative; /* Prevent interference with the X button */
   z-index: 1; /* Ensure it appears above the background but below the X button */
+}
+.book-description {
+  max-height: 200px; /* Set a limit to the description height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  font-size: 1rem; /* Match the modal content font size */
+  color: #333; /* Ensure consistent text color */
+  padding: 10px;
+}
+
+.book-details p,
+.book-description {
+  margin: 0 0 10px;
 }

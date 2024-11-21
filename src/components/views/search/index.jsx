@@ -8,12 +8,12 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import './styles/searchView.css';
 
-export default function SearchView ({ searchString, isAuthenticated }) {
-
+export default function SearchView({ searchString, isAuthenticated, user }) {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/books?title=${searchString}`)
+    axios
+      .get(`http://localhost:3000/books?title=${searchString}`)
       .then((response) => {
         setBooks(response.data);
       })
@@ -24,7 +24,10 @@ export default function SearchView ({ searchString, isAuthenticated }) {
 
   if (!books.length) {
     return (
-      <Box className="search-view" sx={{ flexGrow: 1, pl: 10, height: "1000px" }}>
+      <Box
+        className="search-view"
+        sx={{ flexGrow: 1, pl: 10, height: '1000px' }}
+      >
         <Typography variant="h4" gutterBottom>
           No books found
         </Typography>
@@ -33,16 +36,25 @@ export default function SearchView ({ searchString, isAuthenticated }) {
   }
   return (
     <Box className="search-view" sx={{ flexGrow: 1, pl: 10 }}>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
         {books.map((book, index) => (
           <Grid key={index} size={{ xs: 2, sm: 4 }}>
-            <BookCard book={book} onClick={true} isAuthenticated={isAuthenticated} />
+            <BookCard
+              book={book}
+              onClick={true}
+              isAuthenticated={isAuthenticated}
+              user={user}
+            />
           </Grid>
         ))}
       </Grid>
     </Box>
   );
-};
+}
 
 SearchView.propTypes = {
   searchString: propTypes.string,

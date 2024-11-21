@@ -15,7 +15,10 @@ export default function BookCarousel({
   showConfirmReturnButton = false,
   handleConfirmReturn,
   isAuthenticated,
+  remove = false,
+  user,
 }) {
+  console.log('books: ', books);
   return (
     <div className="swiper-container">
       <Swiper
@@ -30,9 +33,11 @@ export default function BookCarousel({
               <BookCard
                 isAuthenticated={isAuthenticated}
                 book={book}
-                onClick={onClick}
+                onClick={true}
                 showConfirmReturnButton={showConfirmReturnButton}
                 handleConfirmReturn={handleConfirmReturn}
+                remove={remove}
+                user={user}
               />
             </SwiperSlide>
           );
@@ -55,5 +60,7 @@ BookCarousel.propTypes = {
   onClick: PropTypes.bool,
   showConfirmReturnButton: PropTypes.bool,
   handleConfirmReturn: PropTypes.func,
-  isAuthenticated: PropTypes.bool.isAuthenticated,
+  isAuthenticated: PropTypes.bool,
+  remove: PropTypes.bool,
+  user: PropTypes.object,
 };

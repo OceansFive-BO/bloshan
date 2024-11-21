@@ -5,7 +5,7 @@ import './styles/index.css';
 import { Typography } from '@mui/material';
 import axios from 'axios';
 
-export default function HomeView({ isAuthenticated }) {
+export default function HomeView({ isAuthenticated, user }) {
   const [bookSet1, setBookSet1] = useState([]);
   const [bookSet2, setBookSet2] = useState([]);
   const [bookSet3, setBookSet3] = useState([]);
@@ -51,7 +51,12 @@ export default function HomeView({ isAuthenticated }) {
                 Fiction
               </Typography>
             </div>
-            <BookCarousel onClick={true} books={bookSet1} isAuthenticated={isAuthenticated} />
+            <BookCarousel
+              onClick={true}
+              books={bookSet1}
+              isAuthenticated={isAuthenticated}
+              user={user}
+            />
           </>
         )}
       </div>
@@ -63,7 +68,12 @@ export default function HomeView({ isAuthenticated }) {
                 Science
               </Typography>
             </div>
-            <BookCarousel onClick={true} books={bookSet2} isAuthenticated={isAuthenticated} />
+            <BookCarousel
+              onClick={true}
+              books={bookSet2}
+              isAuthenticated={isAuthenticated}
+              user={user}
+            />
           </>
         )}
       </div>
@@ -75,7 +85,12 @@ export default function HomeView({ isAuthenticated }) {
                 Art
               </Typography>
             </div>
-            <BookCarousel onClick={true} books={bookSet3} isAuthenticated={isAuthenticated} />
+            <BookCarousel
+              onClick={true}
+              books={bookSet3}
+              isAuthenticated={isAuthenticated}
+              user={user}
+            />
           </>
         )}
       </div>
@@ -85,4 +100,5 @@ export default function HomeView({ isAuthenticated }) {
 
 HomeView.propTypes = {
   isAuthenticated: propTypes.bool.isRequired,
+  user: propTypes.object,
 };
