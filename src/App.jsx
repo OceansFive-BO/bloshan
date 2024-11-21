@@ -88,7 +88,7 @@ const App = () => {
             <Route
               path="/contact"
               element={
-                <Contact userData={userData} isLoggedIn={isAuthenticated} />
+                <Contact user={userData} isAuthenticated={isAuthenticated} />
               }
             />
             <Route path="/" element={<Reroute />} />

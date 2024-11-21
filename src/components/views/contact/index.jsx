@@ -15,7 +15,6 @@ import bnLogo from '../../../assets/bn.png';
 import './contactform.css';
 
 const ContactForm = ({user, isAuthenticated}) => {
-  // console.log('test', user, isAuthenticated);
   const theme = useTheme();
   const [formData, setFormData] = useState({
     firstname: '',
@@ -30,6 +29,7 @@ const ContactForm = ({user, isAuthenticated}) => {
 
   useEffect(() => {
     if (isAuthenticated && user) {
+      console.log('test2')
       setFormData({
         firstname: user.firstname || '',
         lastname: user.lastname || '',
