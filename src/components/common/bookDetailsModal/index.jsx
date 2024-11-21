@@ -129,21 +129,21 @@ function BookModal({ book, onClose, user }) {
                 />
 
                 <div className="book-details">
-                  <p>
+                  <p className='book-p-tag'>
                     <strong>Published:</strong> {formatDate(publish_date)}
                   </p>
-                  <p>
+                  <p className='book-p-tag'>
                     <strong>Genre:</strong> {genre}
                   </p>
 
                   {ownerDetails && (
                     <div className="owner-details">
-                      <p>
+                      <p className='book-p-tag'>
                         <strong>Owner:</strong>{' '}
                         {`${ownerDetails.firstname} ${ownerDetails.lastname}`}
                       </p>
 
-                      <p>
+                      <p className='book-p-tag'>
                         <strong>Preferred Contact:</strong>{' '}
                         {ownerDetails.preferred_contact === 'email'
                           ? ownerDetails.email
