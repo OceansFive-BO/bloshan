@@ -65,7 +65,7 @@ const App = () => {
           loginWithRedirect={loginWithRedirect}
           logoutWithRedirect={logoutWithRedirect}
         />
-        <Container className="flex-grow-1 mt-5">
+        <Container className="flex-grow-1 mt-5 body-container">
           <Routes>
             <Route
               path="/home"
