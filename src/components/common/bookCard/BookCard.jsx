@@ -241,7 +241,6 @@ export default function BookCard({
 
 BookCard.propTypes = {
   book: propTypes.shape({
-    id: propTypes.string.isRequired,
     title: propTypes.string.isRequired,
     author: propTypes.string.isRequired,
     description: propTypes.string.isRequired,
@@ -258,4 +257,5 @@ BookCard.propTypes = {
   handleConfirmReturn: propTypes.func,
   remove: propTypes.bool,
   user: propTypes.object,
+  isAuthenticated: propTypes.bool.isRequired,
 };

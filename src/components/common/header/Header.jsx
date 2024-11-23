@@ -5,9 +5,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import HomeIcon from "@mui/icons-material/Home";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import "./header.css";
 import LoginIcon from "@mui/icons-material/Login";
@@ -223,7 +221,6 @@ export default function Header({
 }
 
 Header.propTypes = {
-  search: propTypes.string.isRequired,
   setSearch: propTypes.func.isRequired,
   isAuthenticated: propTypes.bool.isRequired,
   loginWithRedirect: propTypes.func.isRequired,
