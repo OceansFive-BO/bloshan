@@ -79,7 +79,6 @@ function SignupPage() {
         'http://localhost:3000/users/',
         userData
       );
-      console.log('User created successfully:', response.data);
 
       setErrors([]);
       setSuccessMessage('Thank you for signing up!');

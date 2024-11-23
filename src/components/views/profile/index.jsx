@@ -22,7 +22,6 @@ function ProfilePage({ user }) {
   if (!user) {
     return <Navigate to="/home" replace />;
   }
-  console.log('user', user);
   const userId = user._id;
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -92,7 +91,6 @@ function ProfilePage({ user }) {
         bookData
       );
 
-      console.log('POST request:', response.data);
 
       if (!response.data._id) {
         throw new Error('POST request did not return an _id for the book.');
@@ -101,7 +99,6 @@ function ProfilePage({ user }) {
       const addedBookResponse = await axios.get(
         `http://localhost:3000/books/${response.data._id}`
       );
-      console.log('GET response for added book:', addedBookResponse.data);
 
       setListedBooks((prevBooks) => [...prevBooks, addedBookResponse.data]);
 
@@ -126,7 +123,6 @@ function ProfilePage({ user }) {
         `http://localhost:3000/books/${bookId}/lend`
       );
       if (response.status === 204) {
-        console.log('Book return confirmed:', bookId);
 
         const updatedListedBooksResponse = await axios.get(
           `http://localhost:3000/users/${userId}/lending`

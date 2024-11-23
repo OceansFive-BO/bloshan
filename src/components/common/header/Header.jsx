@@ -63,7 +63,6 @@ export default function Header({
       axios
         .get(`http://localhost:3000/books?title=${inputValue}&count=5`)
         .then((response) => {
-          console.log(response.data);
           let bookTitles = response.data.map((book) => {
             return {label: book.title};
           });
@@ -79,7 +78,6 @@ export default function Header({
   }, [inputValue]);
 
   useEffect(() => {
-    console.log();
     if (inputValue.length === 1) {
       navigate('/search');
     }
