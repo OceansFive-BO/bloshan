@@ -221,7 +221,6 @@ export default function Header({
 }
 
 Header.propTypes = {
-  search: propTypes.string.isRequired,
   setSearch: propTypes.func.isRequired,
   isAuthenticated: propTypes.bool.isRequired,
   loginWithRedirect: propTypes.func.isRequired,
