@@ -18,7 +18,6 @@ export default function BookCarousel({
   remove = false,
   user,
 }) {
-  console.log('books: ', books);
   return (
     <div className="swiper-container">
       <Swiper

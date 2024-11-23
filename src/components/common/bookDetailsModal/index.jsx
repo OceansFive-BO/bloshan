@@ -27,8 +27,6 @@ function BookModal({ book, onClose, user }) {
 
   useEffect(() => {
     setLikeCount(likes);
-    console.log('book: ', book);
-    console.log('userID: ', userID);
     // Fetch owner details
     const fetchOwnerDetails = async () => {
       try {
@@ -36,7 +34,6 @@ function BookModal({ book, onClose, user }) {
           `http://localhost:3000/users/${book.userID}`
         );
         setOwnerDetails(response.data);
-        console.log('owner: ', ownerDetails); // Store owner details
       } catch (error) {
         console.error('Error fetching owner details:', error);
       }
@@ -52,7 +49,6 @@ function BookModal({ book, onClose, user }) {
   }, []);
 
   const formatDate = (dateString) => {
-    console.log('publishDate:', dateString); // Debugging
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };

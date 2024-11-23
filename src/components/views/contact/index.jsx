@@ -29,7 +29,6 @@ const ContactForm = ({user, isAuthenticated}) => {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      console.log('test2')
       setFormData({
         firstname: user.firstname || '',
         lastname: user.lastname || '',
